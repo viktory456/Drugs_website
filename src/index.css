@@ -1,13 +1,39 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
+  margin: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen','Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+.vl{
+  border-left: 1px solid darkslategrey;
+  height: 30px;
+}
+.shopsMenu{
+  width: 300px;
+  border: 1px solid darkslategrey;
+  border-radius: 10px;
+}
+.shopItem{
+  width: 250px;
+  height: 60px;
+  text-align: center;
+  line-height: 100%;
+  border: 1px solid darkslategrey;
+  border-radius: 10px;
+  color: darkslategrey;
+  margin: 25px auto;
+}
+
+.shopItem:hover {
+  background-color: antiquewhite;
+  cursor: pointer;
+}
+.shopsTitle{
+  text-align: center;
+  color: darkslategrey;
+}
+

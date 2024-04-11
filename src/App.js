@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import ShopsList from "./features/shops/ShopsList";
+// import { useGetShopsQuery } from "./features/api/api"
+import ShoppingCart from "./features/shops/ShoppingCart";
+import Layout from "./components/Layout";
+import { Routes, Route } from 'react-router-dom';
 
 function App() {
+
+  // const { data, error, isLoading } = useGetShopsQuery()
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+
+        <Route index element={<ShopsList />} />
+
+        <Route path="cart">
+          <Route index element={<ShoppingCart />} />
+        </Route>
+
+      </Route>
+    </Routes>
   );
 }
 
