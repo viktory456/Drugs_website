@@ -1,5 +1,5 @@
 import ShopsList from "./features/shops/ShopsList";
-// import { useGetShopsQuery } from "./features/api/api"
+import { MainPage } from "./features/mainPage/MainPage";
 import ShoppingCart from "./features/shops/ShoppingCart";
 import Layout from "./components/Layout";
 import { Routes, Route } from 'react-router-dom';
@@ -11,7 +11,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
 
-        <Route index element={<ShopsList />} />
+        <Route index element={<MainPage />} />
 
         <Route path="cart">
           <Route index element={<ShoppingCart />} />

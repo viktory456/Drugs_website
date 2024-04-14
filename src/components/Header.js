@@ -31,14 +31,15 @@ const NavUnlisted = styled.ul`
 
 const Header = () => {
     return (
-        <header className="Header">
+        <header className="header">
             <NavUnlisted>
                 {/* <ul className="mainMenu"> */}
                     <NavLink to="/" activeClassName="current" exact><li>Shops</li></NavLink>
-                    <div class="vl"></div>
+                    <div className="vl"></div>
                     <NavLink to="cart" activeClassName="current" exact><li>Shopping Cart</li></NavLink>
                 {/* </ul> */}
             </NavUnlisted>
+            
         </header>
     )
 }

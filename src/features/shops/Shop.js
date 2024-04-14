@@ -1,5 +1,4 @@
-import React from 'react'
-import { useGetShopsQuery} from '../api/api'
+import { useGetShopsQuery} from '../api/shopsSlice'
 
 
 const Shop = ({shopId}) => {

@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { useSelector } from "react-redux";
-import { useGetShopsQuery} from '../api/api'
-import {selectShopsResult} from '../api/api'
+import { useGetShopsQuery} from '../api/shopsSlice'
 import Shop from './Shop';
 
 
@@ -10,23 +9,22 @@ const ShopsList = () => {
 
     const { data:shops, isLoading, isSuccess, isError, error } = useGetShopsQuery('getShops')
 
-    let content;
+    let contentShops;
     if (isLoading) {
-        content = <p>"Loading..."</p>;
+      contentShops = <p>"Loading..."</p>;
     } else if (isSuccess) {
-        
-        content = shops.ids.map(shopId => <Shop key={shopId} shopId={shopId}/>)
-    } else if (isError) {
-        content = <p>{error}</p>;
-    }
+      contentShops = shops.ids.map(shopId => <Shop key={shopId} shopId={shopId}/>)
+    } 
 
-    // console.log(shops);
+ 
         
     return(
-      <div className='shopsMenu'>
-      <h2 className='shopsTitle'>Shops:</h2>
-      {content}
-      </div>
+
+        <div className='shopsMenu'>
+          <h2 className='shopsTitle'>Shops:</h2>
+          {contentShops}
+        </div>
+
 
     );
 }
