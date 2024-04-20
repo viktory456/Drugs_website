@@ -7,20 +7,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 .header{
-  /* position: sticky;
-  /* height: 50px; */
-  /* top: 0;
-  width: 100%;  */
   position: sticky;
   top: 0;
   background-color: rgb(239, 224, 224);
   padding: 20px;
   font-size: 20px;
   }
-.App{
-    /* margin-top: 50px; */
-    /* min-height:1000px; */
-  } 
 .vl{
   border-left: 1px solid darkslategrey;
   height: 30px;
@@ -37,7 +29,6 @@ code {
 }
 .shopsMenu{
   padding: 15px;
-  /* flex-grow: 1; */
   border: 1px solid darkslategrey;
   border-radius: 10px;
   width: 20%;
@@ -73,8 +64,11 @@ code {
   width: 80%;
 }
 .drugItem{
+  padding: 16px;;
+  /* width: min-content; */
+  height: fit-content;
   width: 45%;
-  height: 190px;
+  /* height: 190px; */
   text-align: center;
   line-height: 100%;
   border: 1px solid darkslategrey;
@@ -82,4 +76,56 @@ code {
   color: darkslategrey;
   margin: 20px auto;
 }
+.drugItem:hover {
+  background-color: lightcyan;
+  cursor: pointer;
+}
 
+.drugPic{
+  height: 150px;
+}
+.picDescription{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: baseline;
+}
+.buyButton{
+  width: 100px;
+  height: 50px;
+  border: 1px solid darkslategrey;
+  border-radius: 10px;
+  color: darkslategrey;
+}
+.buyButton:hover{
+  background-color: antiquewhite;
+  cursor: pointer;
+}
+.qtyCounter{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  width: 100px;
+  height: 50px;
+  border: 1px solid darkslategrey;
+  border-radius: 10px;
+  color: darkslategrey;
+  background-color: white;
+}
+.qtyCounter:hover{
+  background-color: white;
+  cursor: pointer;
+}
+.qtyButton{
+  background-color: white;
+  border: none;
+  color: darkslategrey;
+}
+.qtyButton:hover{
+  font-weight: 800;
+  cursor: pointer;
+}
+.cartItem{
+  color: darkslategrey;
+}
