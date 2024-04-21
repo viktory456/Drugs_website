@@ -33,11 +33,23 @@ const Header = () => {
     return (
         <header className="header">
             <NavUnlisted>
-                {/* <ul className="mainMenu"> */}
-                    <NavLink to="/" activeClassName="current" exact><li>Shops</li></NavLink>
+
+                    <NavLink to="/" 
+                      style={({ isActive}) => {
+                        return {
+                          fontWeight: isActive ? "bold" : "normal",
+                        };
+                      }}
+                      exact><li>Shops</li></NavLink>
                     <div className="vl"></div>
-                    <NavLink to="cart" activeClassName="current" exact><li>Shopping Cart</li></NavLink>
-                {/* </ul> */}
+                    <NavLink to="cart"
+                      style={({ isActive}) => {
+                        return {
+                          fontWeight: isActive ? "bold" : "normal",
+                        };
+                      }}
+                    exact><li>Shopping Cart</li></NavLink>
+
             </NavUnlisted>
             
         </header>

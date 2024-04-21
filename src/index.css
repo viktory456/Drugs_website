@@ -13,6 +13,9 @@ code {
   padding: 20px;
   font-size: 20px;
   }
+  .header a.active {
+    color: rgb(239, 224, 224);
+  }
 .vl{
   border-left: 1px solid darkslategrey;
   height: 30px;
@@ -33,20 +36,7 @@ code {
   border-radius: 10px;
   width: 20%;
 }
-.shopItem{
-  width: 90%;
-  height: 60px;
-  text-align: center;
-  line-height: 100%;
-  border: 1px solid darkslategrey;
-  border-radius: 10px;
-  color: darkslategrey;
-  margin: 20px auto;
-}
-.shopItem:hover {
-  background-color: antiquewhite;
-  cursor: pointer;
-}
+
 .shopsTitle{
   margin: 0;
   text-align: center;
@@ -64,11 +54,9 @@ code {
   width: 80%;
 }
 .drugItem{
-  padding: 16px;;
-  /* width: min-content; */
+  padding: 16px;
   height: fit-content;
   width: 45%;
-  /* height: 190px; */
   text-align: center;
   line-height: 100%;
   border: 1px solid darkslategrey;
@@ -128,4 +116,57 @@ code {
 }
 .cartItem{
   color: darkslategrey;
+  padding: 16px;
+  height: fit-content;
+  width: 700px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid darkslategrey;
+  align-items: center;
+  border-radius: 10px;
+  margin: 20px auto;
+  align-items: center;
+}
+.cartItem div{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  width: 140px;
+}
+.cartTitle{
+  color: darkslategrey;
+  padding: 16px;
+  height: fit-content;
+  width: 700px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid darkslategrey;
+  border-radius: 10px;
+  margin-top: 20px;
+  font-weight: bold;
+  align-items: center;
+}
+.cartTitle div{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  width: 140px;
+}
+.shoppingCart{
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  justify-content: space-between;
+  width: 100%;
+  gap:5px;
+}
+.shopPage{
+  display: flex;
+  flex-direction: column;
+  align-items:start;
+  justify-content:start;
+  width: 100%;
+  gap:5px;
 }

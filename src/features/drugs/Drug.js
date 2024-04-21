@@ -36,7 +36,7 @@ const Drug = ({drugId}) => {
         if (!isLoading) {
             try {
                 console.log(drug);
-                await addToCart({ id: idInCart, name: drug.name, shop: drug.shop_id, quantity: quantity }).unwrap()
+                await addToCart({ id: idInCart, name: drug.name, shop: drug.shop_id, quantity: quantity, price: drug.price }).unwrap()
                
                 // navigate('/')
             } catch (err) {

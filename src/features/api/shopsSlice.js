@@ -1,5 +1,6 @@
 import {createSelector, createEntityAdapter} from "@reduxjs/toolkit";
 import {apiSlice} from '../api/api'
+import { useParams } from 'react-router-dom'
 
 const shopsAdapter = createEntityAdapter({
     sortComparer: (a, b) => b.id.localeCompare(a.id)
@@ -20,11 +21,21 @@ export const shopsApiSlice = apiSlice.injectEndpoints({
             //     ...result.ids.map(({ id }) => ({ type: 'Skills', id }))
             // ]
         }),
+        getDrugsToShops: builder.query({
+            query: shopId => `/:${shopId}`,
+            transformResponse: responseData => {
+                return shopsAdapter.setAll(initialState, responseData)
+            },
+            // providesTags: { type: 'DrugsToShops', id: "LIST" },
+            providesTags: (result, error, arg) => [
+                ...result.ids.map(id => ({ type: 'DrugsToShops', id }))
+            ]
+        }),
     })
 })
 export const {
     useGetShopsQuery,
-    // useAddNewSkillMutation,
+    useGetDrugsToShopsQuery,
     // useDeleteSkillMutation
 } = shopsApiSlice
 

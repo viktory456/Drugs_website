@@ -10,7 +10,7 @@ import { shopsApiSlice } from './features/api/shopsSlice';
 import { drugsApiSlice } from './features/api/drugsSlice';
 import { cartApiSlice } from './features/api/cartSlice';
 
-// store.dispatch(apiSlice.endpoints.getShops.initiate());
+
 
 store.dispatch(drugsApiSlice.endpoints.getDrugs.initiate())
 store.dispatch(shopsApiSlice.endpoints.getShops.initiate())

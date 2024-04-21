@@ -10,7 +10,8 @@ export const cartApiSlice = apiSlice.injectEndpoints({
         getCart: builder.query({
             query: () => '/cart',
             transformResponse: responseData => {
-                return cartAdapter.setAll(initialState, responseData)
+
+                return cartAdapter.setAll(initialState, responseData.cart)
 
             },
             providesTags: { type: 'Cart', id: "LIST" },

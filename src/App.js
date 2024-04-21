@@ -3,6 +3,7 @@ import { MainPage } from "./features/mainPage/MainPage";
 import ShoppingCart from "./features/shops/ShoppingCart";
 import Layout from "./components/Layout";
 import { Routes, Route } from 'react-router-dom';
+import { ShopPage } from "./features/shops/ShopPage";
 
 function App() {
 
@@ -16,6 +17,8 @@ function App() {
         <Route path="cart">
           <Route index element={<ShoppingCart />} />
         </Route>
+
+        <Route path=":shopId" element={<ShopPage />} />
 
       </Route>
     </Routes>
