@@ -3,11 +3,11 @@ import { MainPage } from "./features/mainPage/MainPage";
 import ShoppingCart from "./features/shops/ShoppingCart";
 import Layout from "./components/Layout";
 import { Routes, Route } from 'react-router-dom';
+import ShopsListExtended from "./features/shops/ShopsListExtended";
 import { ShopPage } from "./features/shops/ShopPage";
 
 function App() {
 
-  // const { data, error, isLoading } = useGetShopsQuery()
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -18,8 +18,10 @@ function App() {
           <Route index element={<ShoppingCart />} />
         </Route>
 
-        <Route path=":shopId" element={<ShopPage />} />
-
+        <Route path="shops" >
+          <Route index element={<ShopsListExtended/>}/>
+          <Route path=":shopId" element={<ShopPage />} />
+        </Route>
       </Route>
     </Routes>
   );

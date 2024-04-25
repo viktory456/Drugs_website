@@ -36,11 +36,36 @@ code {
   border-radius: 10px;
   width: 20%;
 }
-
+.shopsMenuExtended{
+  padding: 15px;
+  border: 1px solid darkslategrey;
+  border-radius: 10px;
+  min-width: 100wh;
+}
 .shopsTitle{
   margin: 0;
   text-align: center;
   color: darkslategrey;
+}
+.shopItem{
+  margin: 0;
+  text-align: center;
+  color: darkslategrey;
+}
+.shopsList{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 30px;
+}
+.shopDetailed{
+  display: flex;
+  justify-content: column;
+  align-items: center;
+  /* gap: 35px; */
+}
+.shopDetailed div{
+  width: 100%;
 }
 .drugsMenu{
   border: 1px solid darkslategrey;

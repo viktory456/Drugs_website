@@ -21,21 +21,23 @@ export const shopsApiSlice = apiSlice.injectEndpoints({
             //     ...result.ids.map(({ id }) => ({ type: 'Skills', id }))
             // ]
         }),
-        getDrugsToShops: builder.query({
-            query: shopId => `/:${shopId}`,
-            transformResponse: responseData => {
-                return shopsAdapter.setAll(initialState, responseData)
-            },
-            // providesTags: { type: 'DrugsToShops', id: "LIST" },
-            providesTags: (result, error, arg) => [
-                ...result.ids.map(id => ({ type: 'DrugsToShops', id }))
-            ]
+        // getShopsDetailed: builder.query({
+        //     query: () => '/shops',
+        //     transformResponse: responseData => {
+        //         return shopsAdapter.setAll(initialState, responseData)
+        //     },
+        //     providesTags: { type: 'Shop', id: "LIST" },
+        //     // providesTags: (result, error, arg) => [
+        //     //     {type: 'Shops', id: "LIST"},
+        //     //     ...result.ids.map(({ id }) => ({ type: 'Skills', id }))
+        //     // ]
+        // }),
         }),
     })
-})
+
 export const {
     useGetShopsQuery,
-    useGetDrugsToShopsQuery,
+    // useGetShopsDetailedQuery,
     // useDeleteSkillMutation
 } = shopsApiSlice
 

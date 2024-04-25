@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react'
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { useGetShopsQuery} from '../api/shopsSlice'
-import Shop from './Shop';
+import ShopExtended from './ShopExtended';
 
 
 
-const ShopsList = () => {
+const ShopsListExtended = () => {
 
     const { data:shops, isLoading:isLoadingShops, isSuccess:isSuccessShops, isError, error } = useGetShopsQuery('getShops')
 
@@ -13,26 +13,24 @@ const ShopsList = () => {
     if (isLoadingShops) {
       contentShops = <p>"Loading..."</p>;
     } else if (isSuccessShops) {
-      contentShops = shops.ids.map(shopId => <Shop key={shopId} shopId={shopId}/>)
+
+      contentShops = shops.ids.map(shopId => <ShopExtended key={shopId} shopId={shopId}/>)
     } 
 
  
         
     return(
 
-        <div className='shopsMenu'>
+        <div className='shopsMenuExtended'>
           <h2 className='shopsTitle'>Shops:</h2>
-          {contentShops}
+            <ul className='shopsList'>
+                {contentShops}
+            </ul>
+
         </div>
 
 
     );
 }
 
-export default ShopsList
-
-
-
-
-
-
+export default ShopsListExtended
