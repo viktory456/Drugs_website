@@ -14,7 +14,7 @@ import {drugsToShopsApiSlice} from './features/api/drugsToShopsSlice';
 store.dispatch(drugsApiSlice.endpoints.getDrugs.initiate())
 store.dispatch(shopsApiSlice.endpoints.getShops.initiate())
 store.dispatch(cartApiSlice.endpoints.getCart.initiate())
-store.dispatch(drugsToShopsApiSlice.endpoints.getDrugsToShops.initiate())
+store.dispatch(drugsToShopsApiSlice.endpoints.getDrugs.initiate())
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

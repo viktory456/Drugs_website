@@ -1,7 +1,7 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { useGetShopsQuery } from '../api/shopsSlice'
-import {useGetDrugsToShopsQuery} from '../api/drugsToShopsSlice'
+
 
 
 export const ShopPage = () => {
@@ -15,20 +15,7 @@ export const ShopPage = () => {
         }),
     })
 
-    const { data:drugsList, isLoading:isLoadingDtS, isSuccess:isSuccessDtS, isError, error } = useGetDrugsToShopsQuery(shopId)
-    
-
-    let DrugsToShops;
-    if (isLoadingDtS) {
-        DrugsToShops = <p>"Loading..."</p>;
-    } else if (isSuccessDtS) {
-        // DrugsToShops = drugsList.ids.map(id => <p>drugsList.entities[id].shopId</p>)
-        console.log(drugsList);
-    } 
-
-
-
-  
+   
     
   return (
     <div className='shopPage'>

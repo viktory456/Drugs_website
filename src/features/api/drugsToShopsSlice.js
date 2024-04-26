@@ -10,9 +10,11 @@ const initialState = drugsToShopsAdapter.getInitialState()
 
 export const drugsToShopsApiSlice = apiSlice.injectEndpoints({
        endpoints: builder => ({
-        getDrugsToShops: builder.query({
-            query: (id) => ({ url: `/shops/${id}` }), //to use SelectId???
+        getDrugs: builder.query({
+            query: () => '/shops', //to use SelectId???
             transformResponse: responseData => {
+                // let drugsToShop = responseData.filter(drug => drug.shopId === id);
+                // console.log(drugsToShop);
                 console.log(responseData);
                 return drugsToShopsAdapter.setAll(initialState, responseData)
             },
@@ -24,7 +26,7 @@ export const drugsToShopsApiSlice = apiSlice.injectEndpoints({
     })
 })
 export const {
-    useGetDrugsToShopsQuery,
+    useGetDrugsQuery,
 } = drugsToShopsApiSlice
 
 // export const selectShopsResult = shopsApiSlice.endpoints.getShops.select()
