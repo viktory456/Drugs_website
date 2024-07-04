@@ -1,6 +1,7 @@
-import { useGetShopsQuery} from '../api/shopsSlice'
+import { useGetShopsQuery, selectShopById} from '../api/shopsSlice'
 import { NavLink } from "react-router-dom"
 import styled from "styled-components";
+import { useSelector } from 'react-redux'
 
 const NavUnlisted = styled.li`
 
@@ -14,62 +15,40 @@ const NavUnlisted = styled.li`
   border: 1px solid darkslategrey;
   border-radius: 10px;
 
-  a {
+  div, a{
     text-decoration: none;
     color: darkslategrey;
-    font-size: 1.3rem;
-  }
-
-  li {
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: center;
-    // align-items: center;
-
+    font-size: 12px;
     
-    // width: 90%;
-    // height: 60px;
-    // text-align: center;
-    // line-height: 100%;
-    // border: 1px solid darkslategrey;
-    // border-radius: 10px;
-    // margin: 20px auto;
-    // background-color: white;
   }
+
 //   li:hover {
 //     background-color: antiquewhite;
 //     cursor: pointer;
 //   }
 `;
 
-
 const ShopExtended = ({shopId}) => {
 
-    const { shop } = useGetShopsQuery('getShops', {
-        selectFromResult: ({ data }) => ({
-            shop: data?.entities[shopId]
-        }),
-    })
+  const shop = useSelector((state) => selectShopById(state, Number(shopId)))
+  // const { shop } = useGetShopsQuery('getShops', {
+  //       selectFromResult: ({ data }) => ({
+  //           shop: data?.entities[shopId]
+  //       }),
+  // })
 
 
   return (
     <NavUnlisted>
-      <NavLink to={`${shopId}`}
-        style={({ isActive}) => {
-          return {
-            fontWeight: isActive ? "bold" : "normal",
-          };
-        }}
-      exact>
-        <div className='shopDetailed'>
-            <div>
+            <div className='shopTitle'>
                 {shop.name}
             </div>
-            <div>
+            <div className='shopAdress'>
                 {shop.adress}
             </div>
-        </div>
-        </NavLink>
+            <div className='shopPhone'>{'+38 555-55-55'}</div>
+            <div className='medicinesList'><NavLink to={`${shopId}`}>{'See list of medicines  >>>'}</NavLink> </div>
+
     </NavUnlisted>
   )
 }

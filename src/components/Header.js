@@ -6,8 +6,8 @@ const NavUnlisted = styled.ul`
 
   display: flex;
   padding: 0;
-  width: 300px;
-  justify-content: center;
+  // width: 300px;
+  justify-content: left;
   align-items: center;
   column-gap: 35px;
 
@@ -33,14 +33,21 @@ const Header = () => {
     return (
         <header className="header">
             <NavUnlisted>
-
                     <NavLink to="/" 
                       style={({ isActive}) => {
                         return {
                           fontWeight: isActive ? "bold" : "normal",
                         };
                       }}
-                      exact><li>Shops</li></NavLink>
+                      ><li>Home</li></NavLink>
+                    <div className="vl"></div>
+                    <NavLink to="/shops" 
+                      style={({ isActive}) => {
+                        return {
+                          fontWeight: isActive ? "bold" : "normal",
+                        };
+                      }}
+                      ><li>Shops</li></NavLink>
                     <div className="vl"></div>
                     <NavLink to="cart"
                       style={({ isActive}) => {
@@ -48,7 +55,23 @@ const Header = () => {
                           fontWeight: isActive ? "bold" : "normal",
                         };
                       }}
-                    exact><li>Shopping Cart</li></NavLink>
+                    ><li>Shopping Cart</li></NavLink>
+                    <div className="vl"></div>
+                    <NavLink to="history"
+                      style={({ isActive}) => {
+                        return {
+                          fontWeight: isActive ? "bold" : "normal",
+                        };
+                      }}
+                    ><li>History</li></NavLink>
+                    <div className="vl"></div>
+                    <NavLink to="coupons"
+                      style={({ isActive}) => {
+                        return {
+                          fontWeight: isActive ? "bold" : "normal",
+                        };
+                      }}
+                    ><li>Coupons</li></NavLink>
 
             </NavUnlisted>
             
