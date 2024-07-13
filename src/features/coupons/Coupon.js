@@ -1,34 +1,27 @@
 import React, { useState } from 'react'
-import { useCopyCouponMutation, selectCouponById } from '../api/couponsSlice'
-import { useSelector } from "react-redux"
+import { copyCoupon, selectCouponById } from '../api/couponsSlice'
+import { useSelector, useDispatch } from "react-redux"
 
 export const Coupon = (couponId) => {
 
-    const [buttonText, setButtonText] = useState('Copy')
-
+    const dispatch = useDispatch()
+    const [buttonText, setButtonText] = useState(false)
     const couponSelected = useSelector((state) => selectCouponById(state, Number(couponId.couponId)))
 
-    const [copy, { isLoading:isLoadingCopy }] = useCopyCouponMutation()
-
-    const copyCoupon = (e) => {
+    const copyCouponFunc = () => {
         setButtonText(!buttonText)
-        if(!isLoadingCopy){
-            try {
-                copy(couponSelected.id).unwrap()
-            } catch (err) {
-                console.error('Failed to copy the coupon', err)
-            }
+        if (couponSelected.copied === true) {
+            dispatch(copyCoupon(couponSelected)).unwrap()
+        } else {
+            dispatch(copyCoupon(couponSelected)).unwrap()
         }
-    console.log(buttonText);
-    // console.log(e.target.parentElement.value);
-  }
+    }
 
   return (
     <li className='coupon'>
         <div>{couponSelected.name}</div>
         <div>{couponSelected.code}</div>
-         {/* <button onClick={copyCoupon}>{'Copy'}</button> */}
-        <button onClick={copyCoupon}>{couponSelected.copied ? 'Copied' : 'Copy'}</button>
+        <button onClick={copyCouponFunc}>{couponSelected.copied ? 'Remove' : 'Copy'}</button>
     </li>
   )
 }

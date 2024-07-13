@@ -1,9 +1,8 @@
 import { NavLink } from "react-router-dom"
-import ShopsList from "../features/shops/ShopsList"
 import styled from "styled-components";
 
 const NavUnlisted = styled.ul`
-
+  
   display: flex;
   padding: 0;
   // width: 300px;

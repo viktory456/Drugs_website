@@ -1,29 +1,21 @@
 import { useGetDrugsQuery} from '../api/drugsSlice'
-import {useAddToCartMutation, selectAllCart, selectCartById} from '../api/cartSlice'
+import {selectAllCart, selectCartById, deleteFromCart, increaseQty, decreaseQty} from "../api/cartSlice"
 import {Buffer} from "buffer" 
 import { useState } from 'react'
 import { useGetShopsQuery, selectShopById } from '../api/shopsSlice'
-import { useGetCartQuery, useDeleteFromCartMutation, useIncreaseQtyMutation, useDecreaseQtyMutation } from '../api/cartSlice'
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 
 
 
 const CartItem = ({cartItemId}) => {
-    // const cart = useSelector(selectAllCart)
-    const cartItem = useSelector((state) => selectCartById(state, Number(cartItemId.id)))
 
-    // const { itemInCart } = useGetCartQuery('getCart', {
-    //     selectFromResult: ({ data }) => ({
-    //         itemInCart: data?.entities[cartItemId]
-    //     }),
-    // })
-
-    const [deleteItem] = useDeleteFromCartMutation()
-    const [increaseItemQty] = useIncreaseQtyMutation()
-    const [decreaseItemQty] = useDecreaseQtyMutation()
+  const dispatch = useDispatch()
+  const cart = useSelector(selectAllCart)
+    const cartItem = useSelector(state => selectCartById(state, Number(cartItemId.id)))
     const deleteItemClicked = async () => {
+      console.log(cartItem.id);
       try {
-          await deleteItem({id: cartItem.id}).unwrap()
+          await dispatch(deleteFromCart({id:cartItem.id})).unwrap()
       } catch (err) {
           console.error('Failed to delete the item', err)
       }
@@ -31,9 +23,10 @@ const CartItem = ({cartItemId}) => {
   const itemQtyChanged = async (e) => {
     try {
       if(e.target.innerText === '>') {
-        await increaseItemQty(cartItem).unwrap()
+        await dispatch(increaseQty({cartItem})).unwrap()
       } else if(e.target.innerText === '<') {
-        await decreaseItemQty(cartItem).unwrap()
+        // console.log(cartItem);
+        await dispatch(decreaseQty({cartItem})).unwrap()
       }
     } catch (err) {
         console.error('Failed to change qty', err)
@@ -58,8 +51,6 @@ const CartItem = ({cartItemId}) => {
         <div>{shop?.name}</div>
         <div>{itemTotal}</div>
         <div onClick={deleteItemClicked}><button className='rmvBtn'>Remove</button></div>
-
-
     </article>
   )
 }

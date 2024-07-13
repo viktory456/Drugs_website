@@ -41,7 +41,7 @@ const ShopExtended = ({shopId}) => {
   return (
     <NavUnlisted>
             <div className='shopTitle'>
-                {shop.name}
+                {shop.title}
             </div>
             <div className='shopAdress'>
                 {shop.adress}

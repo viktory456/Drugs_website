@@ -1,102 +1,106 @@
-import {createSelector, createEntityAdapter} from "@reduxjs/toolkit";
-import {apiSlice} from './api'
-import { quartersInYear } from "date-fns/constants";
+import { createSlice, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit"
+import axios from "axios"
+// import {apiSlice} from './api'
 
-const cartAdapter = createEntityAdapter()
-
+const CART_URL = 'http://localhost:3000/cart'
+const cartAdapter = createEntityAdapter({sortComparer: (a, b) => a.id.localeCompare(b.id)})
 const initialState = cartAdapter.getInitialState()
 
-export const cartApiSlice = apiSlice.injectEndpoints({
-       endpoints: builder => ({
-        getCart: builder.query({
-            query: () => '/cart',
-            transformResponse: responseData => {
-                return cartAdapter.setAll(initialState, responseData.cart)
-            },
-            providesTags: (responseData) => responseData?.cart ? 
-            [...responseData.cart.map(cartItem => ({type: 'Cart', id: cartItem.id})), { type: 'Cart', id: "LIST" }, { type: 'Cart', id: 'PARTIAL-CART'}] : 
-            [{ type: 'Cart', id: "LIST" }, { type: 'Cart', id: 'PARTIAL-CART'}],
-        }),
-        addToCart: builder.mutation({
-            query: itemToAdd => ({
-                url: '/cart',
-                method: 'POST',
-                body: itemToAdd
-            }),
-            invalidatesTags: [
-                { type: 'Cart', id: "LIST" }
-            ]
-        }),
-        increaseQty: builder.mutation({
-            query: initialItem => ({
-                url: `/cart`,
-                method: 'PUT',
-                body: {
-                    ...initialItem,
-                    quantity: Number(initialItem.quantity) + 1
-                }
-            }),
-            invalidatesTags: (result, error, body) => [
-                { type: 'Cart', id: body.id }
-            ]//how to make rerender after qty change??
-        }),
-        decreaseQty: builder.mutation({
-            query: initialItem => ({
-                url: `/cart`,
-                method: 'PUT',
-                body: {
-                    ...initialItem,
-                    quantity: Number(initialItem.quantity) - 1
-                }
-            }),
-            invalidatesTags: (result, error, body) => [
-                { type: 'Cart', id: body.id }
-            ]//how to make rerender after qty change??
-        }),
-        deleteFromCart: builder.mutation({
-            query: ({ id }) => ({
-                url: `/cart`,
-                method: 'DELETE',
-                body: { id }
-            }),
-            invalidatesTags:  [
-                { type: 'Cart', id: 'PARTIAL-CART'}
-            ]
-        }),
-        addCustomer: builder.mutation({
-            query: customerData => ({
-                url: '/customer',
-                method: 'POST',
-                body: customerData
-            }),
-            // invalidatesTags: [
-            //     { type: 'Customer', id: "LIST" }
-            // ]
-        }),
-    })
+export const fetchCart = createAsyncThunk('cart/fetchCart', async () => {
+    const response = await axios.get(CART_URL)
+    return response.data.cart
 })
-export const {
-    useGetCartQuery,
-    useAddToCartMutation,
-    useDeleteFromCartMutation,
-    useIncreaseQtyMutation,
-    useDecreaseQtyMutation, 
-    useAddCustomerMutation
-} = cartApiSlice
+export const addToCart = createAsyncThunk('cart/addToCart', async (itemToAdd) => {
+    try {
+        const response = await axios.post(CART_URL, itemToAdd)
+        return response.data
+    } catch (err){
+        return err.message
+    }
+})
+export const increaseQty = createAsyncThunk('cart/increaseQty', async (initialItem) => {
+    const {quantity} = initialItem.cartItem
+    const newObject = {...initialItem.cartItem, quantity: Number(quantity)+1}
+    try {
+        const response = await axios.put(CART_URL, newObject)
+        return response.data
+    } catch (err){
+        return err.message
+    }
+})
+export const decreaseQty = createAsyncThunk('cart/decreaseQty', async (initialItem) => {
+    const {quantity} = initialItem.cartItem
+    const newObject = {...initialItem.cartItem, quantity: Number(quantity)-1}
+    try {
+        const response = await axios.put(CART_URL, newObject)
+        return response.data
+    } catch (err){
+        return err.message
+    }
+})
+export const deleteFromCart = createAsyncThunk('cart/deleteFromCart', async (cartItem) => {
+    const id = Number(cartItem.id)
+    try {
+        const response = await axios.delete(CART_URL, {data: {id}})
+        if (response?.status === 200) return cartItem;
+        return `${response?.status}: ${response?.statusText}`;
+    } catch (err){
+        return err.message
+    }
+})
+export const addCustomer = createAsyncThunk('cart/addCustomer', async (customerData) => {
+    try {
+        const response = await axios.post('http://localhost:3000/customer', customerData)
+        return response.data
+    } catch (err){
+        return err.message
+    }
+})
 
-// returns the query result object
-export const selectCartResult = cartApiSlice.endpoints.getCart.select()
+const cartSlice = createSlice({
+    name: 'cart',
+    initialState,
+    reducers: {},
+    extraReducers(builder) {
+        builder
+            .addCase(fetchCart.fulfilled, (state, action) => {
+                cartAdapter.upsertMany(state, action.payload)
+            })
+            .addCase(addToCart.fulfilled, (state, action) => {
+                cartAdapter.addOne(state, action.payload)
+            })
+            .addCase(increaseQty.fulfilled, (state, action) => {
+                cartAdapter.upsertOne(state, action.payload)
+            })
+            .addCase(decreaseQty.fulfilled, (state, action) => {
+                cartAdapter.upsertOne(state, action.payload)
+            })
+            .addCase(decreaseQty.rejected, (state, action) => {
+                console.log(action.error.message);
+            })
+            .addCase(decreaseQty.pending, (state, action) => {
+                console.log(action.payload);
+            })
+            .addCase(deleteFromCart.fulfilled, (state, action) => {
+                console.log(action.payload);
+                const { id } = action.payload;
+                cartAdapter.removeOne(state, id)
+            })
+            .addCase(deleteFromCart.rejected, (state, action) => {
+                console.log(action.error.message);
+            })
+            .addCase(addCustomer.fulfilled, (state, action) => {
+                cartAdapter.addOne(state, action.payload)
+            })
+    }
+})
 
-// Creates memoized selector
-const selectCartData = createSelector(
-    selectCartResult,
-    cartResult => cartResult.data // normalized state object with ids & entities
-)
-
-//getSelectors creates these selectors and we rename them with aliases using destructuring
 export const {
     selectAll: selectAllCart,
     selectById: selectCartById,
     selectIds: selectCartIds
-    // Pass in a selector that returns the posts slice of state
-} = cartAdapter.getSelectors(state => selectCartData(state) ?? initialState)
+} = cartAdapter.getSelectors(state => state.cart)
+
+// export const selectAllCart = (state) => state.cart
+
+export default cartSlice.reducer

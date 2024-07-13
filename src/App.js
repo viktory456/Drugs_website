@@ -32,7 +32,7 @@ function App() {
 
         <Route path="coupons">
           <Route index element={<CouponsList />} />
-        </Route>
+        </Route> 
 
       </Route>
     </Routes>

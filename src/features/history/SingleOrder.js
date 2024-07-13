@@ -14,13 +14,12 @@ export const SingleOrder = ({orderId}) => {
 
 const orderList = orderArray.map(item => {
     return (
-        <div>
-            <div key={item.id} className='singleItem'>
-                <div>{item.name}</div>
-                <div>{item.quantity} pcs</div>
-                <div>{item.price} uah</div>
-            </div>
-        </div>
+       <div key={item.id} className='singleItem'>
+         <div>{item.name}</div>
+         <div>{item.quantity} pcs</div>
+         <div>{item.price} uah</div>
+       </div>
+
     )
 })
 

@@ -35,7 +35,7 @@ export const ShopPage = () => {
   
   return (
     <div className='shopPage'>
-        <div className='shopTitle'>{shop.name}</div>
+        <div className='shopTitle'>{shop.title}</div>
         <div className='shopAdress'>{shop.adress}</div>
 
       <DrugsShops shopId={shopId}/>

@@ -11,6 +11,7 @@ export const History = () => {
   let chosenCustomer = null;
   let [email, setEmail] = useState('')
   let [phone, setPhone] = useState('')
+
   const onEmailChanged = e => {
     setEmail(e.target.value)
   }

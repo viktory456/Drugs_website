@@ -6,6 +6,21 @@ import Shop from './Shop';
 
 const ShopsList = ({setShop}) => {
 
+  // window.onscroll = function() {myFunction()};
+  // var menu = document.getElementsByClassName("shopsTitle")[0];
+  // console.log(menu);
+  // var sticky = menu?.offsetTop;
+  // function myFunction() {
+    
+  //   if (window.screenY >= sticky) {
+  //     menu?.classList.add("sticky")
+  //     console.log('sticky');
+  //   } else {
+  //     menu?.classList.remove("sticky");
+  //     console.log('nonsticky');
+  //   }
+  // }
+
     // const { data:shops, isLoading:isLoadingShops, isSuccess:isSuccessShops, isError, error } = useGetShopsQuery('getShops')
 
     const shops = useSelector(selectAllShops)

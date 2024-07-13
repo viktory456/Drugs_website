@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react'
-import { useGetCartQuery, selectAllCart } from '../api/cartSlice'
-import { useCopyCouponMutation, selectCouponById, selectAllCoupons } from '../api/couponsSlice'
+import {selectAllCart, addCustomer} from "../api/cartSlice"
+import {addOrder} from "../api/ordersSlice"
+import { selectAllCoupons } from '../api/couponsSlice'
 import CartItem from './CartItem'
-import { useSelector } from "react-redux"
-import { useAddOrderMutation } from '../api/ordersSlice'
+import { useSelector, useDispatch } from "react-redux"
 import { Captcha } from '../coupons/Captcha'
 
 export const ShoppingCart = ({setCartTotal, setCart, name, email, phone, adress, deliveryType, totalCost, order}) => {
+  const dispatch = useDispatch()
   const [buttonStatus, setButtonStatus] = useState(true)
-  const [addOrder, { isLoading:isLoadingAddOrder, isSuccess:isSuccessAddOrder }] = useAddOrderMutation()
   const coupons = useSelector(selectAllCoupons)
   let couponsSelected = [{name:'Coupons applied: (uah)'}];
   let couponsSum = 0;
@@ -19,10 +19,11 @@ export const ShoppingCart = ({setCartTotal, setCart, name, email, phone, adress,
     }
   }
   const couponsSelectedDiv = couponsSelected.map(coupon => {
-    return <div key={coupon.id}>{coupon.name}</div>
+    return <div key={coupon.name}>{coupon.name}</div>
   })
   const cart = useSelector(selectAllCart)
-  const contentCart = cart.map(cartItemId=> <CartItem key={cartItemId.id} cartItemId={cartItemId}/>)
+
+  const contentCart = cart?.map(cartItemId=> <CartItem key={cartItemId} cartItemId={cartItemId}/>)
   function total(){
     let temp = cart.map(function(item){
       return item.price*item.quantity
@@ -35,25 +36,17 @@ export const ShoppingCart = ({setCartTotal, setCart, name, email, phone, adress,
   let totalCart = total(); 
   let totalCartWithCoupons = totalCart - Number(couponsSum);
   localStorage.setItem('cart', JSON.stringify(cart));
-
   useEffect(() => {
-    setCartTotal(totalCart);
+    setCartTotal(totalCart.toFixed(2));
     const cartToSave = JSON.stringify(cart)
     setCart(cartToSave)
   }, [totalCart, cart])
-
   const onSubmitClicked = async () => {
-    if(!isLoadingAddOrder) {
       try {
-        // await addCustomer({ name, email, phone, adress}).unwrap()
-        await addOrder({ name, email, phone, adress, deliveryType, totalCost, order}).unwrap()
-
+        await dispatch(addOrder({ name, email, phone, adress, deliveryType, totalCost, order})).unwrap()
       } catch (err) {
           console.error('Failed to summbit the purchase', err)
       }
-    } else {
-      console.log('not loading add order');
-    }
   }
 
   return (

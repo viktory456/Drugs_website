@@ -1,52 +1,40 @@
-import {createSelector, createEntityAdapter} from "@reduxjs/toolkit"
-import {apiSlice} from './api'
+import {createSlice, createAsyncThunk, createEntityAdapter} from "@reduxjs/toolkit"
+import axios from "axios"
+// import {apiSlice} from './api'
 
-const ordersAdapter = createEntityAdapter({
-    sortComparer: (a, b) => a.id.localeCompare(b.id)
-})
-
+const ORDERS_URL = 'http://localhost:3000/orders'
+const ordersAdapter = createEntityAdapter({sortComparer: (a, b) => a.id.localeCompare(b.id)})
 const initialState = ordersAdapter.getInitialState()
 
-export const ordersApiSlice = apiSlice.injectEndpoints({
-       endpoints: builder => ({
-        getOrders: builder.query({
-            query: () => '/orders',
-            transformResponse: responseData => {
-                return ordersAdapter.setAll(initialState, responseData)
-            },
-            providesTags: { type: 'Orders', id: "LIST" },
-        }),
-        addOrder: builder.mutation({
-            query: itemToAdd => ({
-                url: '/orders',
-                method: 'POST',
-                body: itemToAdd
-            }),
-            invalidatesTags: [
-                { type: 'Orders', id: "LIST" }
-            ]
-        }),
-
-    })
+export const fetchOrders = createAsyncThunk('orders/fetchOrders', async () => {
+    const response = await axios.get(ORDERS_URL)
+    return response.data
 })
-export const {
-    useGetOrdersQuery,
-    useAddOrderMutation
-} = ordersApiSlice
+export const addOrder = createAsyncThunk('orders/addOrder', async (itemToAdd) => {
+    const response = await axios.post(ORDERS_URL, itemToAdd)
+    return response.data
+})
 
-// returns the query result object
-export const selectOrdersResult = ordersApiSlice.endpoints.getOrders.select()
+const ordersSlice = createSlice({
+    name: 'orders',
+    initialState,
+    reducers: {},
+    extraReducers(builder) {
+        builder
+            .addCase(fetchOrders.fulfilled, (state, action) => {
+                ordersAdapter.upsertMany(state, action.payload)
+            })
+            .addCase(addOrder.fulfilled, (state, action) => {
+                ordersAdapter.addOne(state, action.payload)
+            })
+    }
+})
 
-// Creates memoized selector
-const selectOrdersData = createSelector(
-    selectOrdersResult,
-    ordersResult => ordersResult.data // normalized state object with ids & entities
-)
 
-//getSelectors creates these selectors and we rename them with aliases using destructuring
 export const {
     selectAll: selectAllOrders,
     selectById: selectOrderById,
     selectIds: selectOrderIds
-    // Pass in a selector that returns the posts slice of state
-} = ordersAdapter.getSelectors(state => selectOrdersData(state) ?? initialState)
+} = ordersAdapter.getSelectors(state => state.orders)
+
+export default ordersSlice.reducer

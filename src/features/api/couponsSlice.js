@@ -1,46 +1,45 @@
-import {createSelector, createEntityAdapter} from "@reduxjs/toolkit"
+import {createSlice, createSelector, createEntityAdapter, createAsyncThunk} from "@reduxjs/toolkit"
+import axios from "axios"
 import {apiSlice} from './api'
 
-const couponsAdapter = createEntityAdapter({
-    sortComparer: (a, b) => a.id.localeCompare(b.id)
-})
-
+const COUPONS_URL = 'http://localhost:3000/coupons'
+const couponsAdapter = createEntityAdapter({sortComparer: (a, b) => a.id.localeCompare(b.id)})
 const initialState = couponsAdapter.getInitialState()
 
-export const couponsApiSlice = apiSlice.injectEndpoints({
-       endpoints: builder => ({
-        getCoupons: builder.query({
-            query: () => '/coupons',
-            transformResponse: responseData => {
-                return couponsAdapter.setAll(initialState, responseData)
-            },
-            providesTags: { type: 'Coupons', id: "LIST" },
-        }),
-        copyCoupon: builder.mutation({
-            query: (id) => ({
-                url: `/coupons`,
-                method: 'PUT',
-                body: {id}
-            }),
-            invalidatesTags: { type: 'Coupons', id: "LIST" },
-    })
+export const fetchCoupons = createAsyncThunk('coupons/fetchCoupons', async () => {
+    const response = await axios.get(COUPONS_URL)
+    return response.data
 })
+export const copyCoupon = createAsyncThunk('cart/copyCoupon', async (couponSelected) => {
+    try {
+        const response = await axios.put(COUPONS_URL, couponSelected)
+        return response.data
+    } catch (err){
+        return err.message
+    }
 })
-export const {
-    useGetCouponsQuery,
-    useCopyCouponMutation
-} = couponsApiSlice
-// returns the query result object
-export const selectCouponsResult = couponsApiSlice.endpoints.getCoupons.select()
-// Creates memoized selector
-const selectCouponsData = createSelector(
-    selectCouponsResult,
-    couponsResult => couponsResult.data // normalized state object with ids & entities
-)
-//getSelectors creates these selectors and we rename them with aliases using destructuring
+const couponsSlice = createSlice({
+    name: 'coupons',
+    initialState,
+    reducers: {},
+    extraReducers(builder) {
+        builder
+            .addCase(fetchCoupons.fulfilled, (state, action) => {
+                couponsAdapter.upsertMany(state, action.payload)
+            })
+            .addCase(copyCoupon.fulfilled, (state, action) => {
+                console.log(action.payload);
+                const { id } = action.payload;
+                couponsAdapter.upsertOne(state, id)
+            })
+    }
+})
+
 export const {
     selectAll: selectAllCoupons,
     selectById: selectCouponById,
     selectIds: selectCouponIds
-    // Pass in a selector that returns the posts slice of state
-} = couponsAdapter.getSelectors(state => selectCouponsData(state) ?? initialState)
+} = couponsAdapter.getSelectors(state => state.coupons)
+
+export default couponsSlice.reducer
+

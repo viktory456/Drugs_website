@@ -1,8 +1,9 @@
 import { InputForm } from './InputForm'
 import { ShoppingCart } from './ShoppingCart'
-// import { useAddCustomerMutation } from '../api/cartSlice'
 import React, { createContext, useContext, useState } from "react"
-import { useAddOrderMutation } from '../api/ordersSlice'
+import { useDispatch } from "react-redux"
+import { addOrder } from '../api/ordersSlice'
+import { addCustomer } from '../api/cartSlice'
 
 const NameContext = createContext();
 const EmailContext = createContext();
@@ -13,6 +14,7 @@ const CurrierContext = createContext();
 
 export const FinalPage = () => {
 
+  const dispatch = useDispatch()
   const [name, setName] = useState('name');
   const [email, setEmail] = useState('email');
   const [phone, setPhone] = useState('phone');
@@ -21,21 +23,12 @@ export const FinalPage = () => {
   const [cart, setCart] = useState('');
   const [currier, setCurrier] = useState(false);
 
-  // const [addCustomer, { isLoading, isSuccess }] = useAddCustomerMutation()
-  const [addOrder, { isLoading:isLoadingAddOrder, isSuccess:isSuccessAddOrder }] = useAddOrderMutation()
-
-
   // const onSubmitClicked = async () => {
-  //   if(!isLoadingAddOrder) {
-  //     try {
-  //       // await addCustomer({ name, email, phone, adress}).unwrap()
-  //       await addOrder({ name, email, phone, adress, deliveryType:currier, totalCost:cartTotal, order:cart}).unwrap()
+  //   try {
+  //     await dispatch(addOrder({ name, email, phone, adress, deliveryType:currier, totalCost:cartTotal, order:cart})).unwrap()
 
-  //     } catch (err) {
-  //         console.error('Failed to summbit the purchase', err)
-  //     }
-  //   } else {
-  //     console.log('not loading add order');
+  //   } catch (err) {
+  //     console.error('Failed to summbit the purchase', err)
   //   }
   // }
   

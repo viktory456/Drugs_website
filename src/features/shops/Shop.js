@@ -69,7 +69,7 @@ const onShopChanged = () => {
         }
       }
       onClick={onShopChanged}
-      ><li>{shop.name}</li></NavLink>
+      ><li>{shop.title}</li></NavLink>
     </NavUnlisted>
   )
 }
