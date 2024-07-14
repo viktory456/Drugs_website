@@ -1,6 +1,6 @@
 import { useGetShopsQuery, selectShopById} from '../api/shopsSlice'
 import { NavLink } from "react-router-dom"
-import { useGetDrugsQuery} from '../api/drugsSlice'
+import { useGetMedsQuery} from '../api/medsSlice'
 import styled from "styled-components"
 import { createContext, useContext, useEffect } from "react"
 import { ShopChosen } from '../mainPage/MainPage'
@@ -43,17 +43,10 @@ const NavUnlisted = styled.ul`
   }
 `;
 
-
 const Shop = ({shopId, setShop}) => {
-
+  
 const useShop = useContext(ShopChosen)
 const shop = useSelector((state) => selectShopById(state, Number(shopId.id)))
-// console.log(shopId);
-    // const { shop } = useGetShopsQuery('getShops', {
-    //     selectFromResult: ({ data }) => ({
-    //         shop: data?.entities[shopId]
-    //     }),
-    // })
 
 const onShopChanged = () => {
   setShop(shopId.id)
@@ -63,9 +56,7 @@ const onShopChanged = () => {
     <NavUnlisted>
       <NavLink to={`/`}
         style={({ isActive}) => {
-          return {
-            fontWeight: isActive ? "bold" : "normal",
-          };
+          return { fontWeight: isActive ? "bold" : "normal" };
         }
       }
       onClick={onShopChanged}

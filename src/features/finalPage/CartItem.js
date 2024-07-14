@@ -1,4 +1,3 @@
-import { useGetDrugsQuery} from '../api/drugsSlice'
 import {selectAllCart, selectCartById, deleteFromCart, increaseQty, decreaseQty} from "../api/cartSlice"
 import {Buffer} from "buffer" 
 import { useState } from 'react'

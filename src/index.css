@@ -86,7 +86,7 @@ code {
   padding: 10px;
   color: darkslategrey;
 }
-.drugsMenu{
+.medsMenu{
   border-radius: 10px;
   display: flex;
   flex-direction: row;
@@ -96,11 +96,11 @@ code {
   justify-content: space-around;
   width: 80%;
 }
-.drugItem{
+.medItem{
   position:relative;
   padding: 16px;
   height: fit-content;
-  width: 565px;
+  width: 570px;
   text-align: center;
   line-height: 100%;
   border: 1px solid darkslategrey;
@@ -114,7 +114,7 @@ code {
 .favIcon:hover{
   cursor: pointer;
 }
-.drugPic{
+.medPic{
   height: 150px;
 }
 .picDescription{
@@ -255,7 +255,7 @@ code {
   width: 100%;
   gap:5px;
 }
-.drugsToShops{
+.medsToShops{
   display: flex;
   flex-wrap:wrap;
   align-items:start;

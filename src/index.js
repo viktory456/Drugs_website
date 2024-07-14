@@ -8,16 +8,16 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { fetchCart } from './features/api/cartSlice';
 import { fetchCoupons } from './features/api/couponsSlice';
 import { fetchShops } from './features/api/shopsSlice';
-import { fetchDrugs } from './features/api/drugsSlice';
-import {fetchDrugsShops} from './features/api/drugsShopsSlice';
+import { fetchMeds } from './features/api/medsSlice';
+import {fetchMedsShops} from './features/api/medsShopsSlice';
 import { fetchOrders } from './features/api/ordersSlice';
 // import { ApiProvider } from '@reduxjs/toolkit/query/react';
 // import { apiSlice } from './features/api/api';
 
 store.dispatch(fetchCart())
 store.dispatch(fetchCoupons())
-store.dispatch(fetchDrugs())
-store.dispatch(fetchDrugsShops())
+store.dispatch(fetchMeds())
+store.dispatch(fetchMedsShops())
 store.dispatch(fetchOrders())
 store.dispatch(fetchShops())
 

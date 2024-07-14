@@ -1,4 +1,4 @@
-import { addFavorite, selectDrugById, selectAllDrugs} from '../api/drugsSlice'
+import { addFavorite, selectMedById, selectAllMeds} from '../api/medsSlice'
 import {selectAllCart} from "../api/cartSlice"
 import {Buffer} from "buffer" 
 import { useState, useEffect, useMemo } from 'react'
@@ -8,15 +8,15 @@ import { useSelector, useDispatch } from 'react-redux'
 import {addToCart} from '../api/cartSlice'
 
 
-const Drug = ({drugId}) => {
+const Med = ({medId}) => {
 
     const dispatch = useDispatch()
-    const drugs = useSelector(selectAllDrugs)
-    const drug = useSelector((state) => selectDrugById(state, Number(drugId.id)))
+    const meds = useSelector(selectAllMeds)
+    const med = useSelector((state) => selectMedById(state, Number(medId.id)))
     const cart = useSelector(selectAllCart)
     let startingQty = 1;
     for(let i =0; i < cart.length; i++){
-        if(cart[i].shop == drug.shop_id && cart[i].name == drug.name){
+        if(cart[i].shop == med.shop_id && cart[i].name == med.name){
             startingQty = Number(cart[i].quantity)
         }
     }
@@ -30,31 +30,31 @@ const Drug = ({drugId}) => {
     const qtyIncrease = () => setQuantity(quantity + 1)
 
     const shops = useSelector(selectAllShops)
-    const shop = useSelector((state) => selectShopById(state, Number(drug?.shop_id)))
-    const [favorite, setFavorite] = useState(drug?.favorite)
-    const base64 = Buffer.from(drug?.img.data, "binary" ).toString("base64");
-    const idInCart = `${drug?.id}${new Date().getTime()}`
+    const shop = useSelector((state) => selectShopById(state, Number(med?.shop_id)))
+    const [favorite, setFavorite] = useState(med?.favorite)
+    const base64 = Buffer.from(med?.img.data, "binary" ).toString("base64");
+    const idInCart = `${med?.id}${new Date().getTime()}`
 
     const onAddItemClicked = async () => {
         try {
-             await dispatch(addToCart({ id: idInCart, name: drug?.name, shop: drug?.shop_id, quantity: quantity, price: drug?.price })).unwrap()
+             await dispatch(addToCart({ id: idInCart, name: med?.name, shop: med?.shop_id, quantity: quantity, price: med?.price })).unwrap()
         } catch (err) {
             console.error('Failed to add the item', err)
         }
     }
     const toggleFav = () => {
-            dispatch(addFavorite(Number(drugId.id))).unwrap()
+            dispatch(addFavorite(Number(medId.id))).unwrap()
     }
 
   return (
-    <article className='drugItem'>
+    <article className='medItem'>
         <div className='favIcon' onClick={toggleFav}>
             {favorite ? <StarSolid /> : <StarEmpty />}
         </div>
-        <img className='drugPic' src={`data:image/png;base64,${base64}`}/>
+        <img className='medPic' src={`data:image/png;base64,${base64}`}/>
         <div className='picDescription'>
-            <h2>{drug.name}</h2>
-            <p>{`${drug.price} uah`}</p>
+            <h2>{med.name}</h2>
+            <p>{`${med.price} uah`}</p>
             <h2>{shop?.title}</h2>
             <div className='qtyCounter'>
                 <button className='qtyButton' onClick={qtyDecrease}>{'-'}</button>
@@ -67,4 +67,4 @@ const Drug = ({drugId}) => {
   )
 }
 
-export default Drug
+export default Med

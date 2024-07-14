@@ -4,14 +4,9 @@ import styled from "styled-components";
 import { useSelector } from 'react-redux'
 
 const NavUnlisted = styled.li`
-
   list-style: none;
-
-//   padding: 0;
   width: 300px;
   height: 200px;
-
-//   margin:0;
   border: 1px solid darkslategrey;
   border-radius: 10px;
 
@@ -21,22 +16,11 @@ const NavUnlisted = styled.li`
     font-size: 12px;
     
   }
-
-//   li:hover {
-//     background-color: antiquewhite;
-//     cursor: pointer;
-//   }
-`;
+    `;
 
 const ShopExtended = ({shopId}) => {
 
   const shop = useSelector((state) => selectShopById(state, Number(shopId)))
-  // const { shop } = useGetShopsQuery('getShops', {
-  //       selectFromResult: ({ data }) => ({
-  //           shop: data?.entities[shopId]
-  //       }),
-  // })
-
 
   return (
     <NavUnlisted>

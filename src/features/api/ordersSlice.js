@@ -1,6 +1,6 @@
 import {createSlice, createAsyncThunk, createEntityAdapter} from "@reduxjs/toolkit"
 import axios from "axios"
-// import {apiSlice} from './api'
+
 
 const ORDERS_URL = 'http://localhost:3000/orders'
 const ordersAdapter = createEntityAdapter({sortComparer: (a, b) => a.id.localeCompare(b.id)})
