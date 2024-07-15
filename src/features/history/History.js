@@ -12,12 +12,8 @@ export const History = () => {
   let [email, setEmail] = useState('')
   let [phone, setPhone] = useState('')
 
-  const onEmailChanged = e => {
-    setEmail(e.target.value)
-  }
-  const onPhoneChanged = e => {
-    setPhone(e.target.value)
-  }
+  const onEmailChanged = e => {setEmail(e.target.value)}
+  const onPhoneChanged = e => {setPhone(e.target.value)}
   for (const customer of customers) {
     if (customer.customerEmail == email || customer.customerPhone == phone) {
       chosenCustomer = customer.id

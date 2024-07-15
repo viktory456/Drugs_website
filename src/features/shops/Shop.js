@@ -48,9 +48,7 @@ const Shop = ({shopId, setShop}) => {
 const useShop = useContext(ShopChosen)
 const shop = useSelector((state) => selectShopById(state, Number(shopId.id)))
 
-const onShopChanged = () => {
-  setShop(shopId.id)
-}
+const onShopChanged = () => {setShop(shopId.id)}
 
   return (
     <NavUnlisted>

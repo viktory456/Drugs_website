@@ -19,20 +19,14 @@ const NavUnlisted = styled.li`
     `;
 
 const ShopExtended = ({shopId}) => {
-
-  const shop = useSelector((state) => selectShopById(state, Number(shopId)))
+const shop = useSelector((state) => selectShopById(state, Number(shopId)))
 
   return (
     <NavUnlisted>
-            <div className='shopTitle'>
-                {shop.title}
-            </div>
-            <div className='shopAdress'>
-                {shop.adress}
-            </div>
+            <div className='shopTitle'> {shop.title} </div>
+            <div className='shopAdress'> {shop.adress} </div>
             <div className='shopPhone'>{'+38 555-55-55'}</div>
             <div className='medicinesList'><NavLink to={`${shopId}`}>{'See list of medicines  >>>'}</NavLink> </div>
-
     </NavUnlisted>
   )
 }

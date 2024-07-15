@@ -7,7 +7,7 @@ import { useSelector } from "react-redux"
 export const MedsList = ({shop}) => {
   const [sortedList, setSortedList] = useState(false)
   const [selectedShop, setSelectedShop] = useState(shop)
-  function comparePrices(a, b) {return a.price - b.price};
+  function comparePrices(a, b) {return a.price - b.price}
   let medsList;
 
   const meds = useSelector(selectAllMeds)

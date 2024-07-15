@@ -1,5 +1,4 @@
 import React, { useContext, useEffect,useState } from 'react'
-// import { NameContext, EmailContext, PhoneContext, AdressContext,useName, useEmail, usePhone,useAdress} from './FinalPage'
 
 export const InputForm = ({setName, setAdress, setPhone, setEmail, setCurrier}) => {
     let [nameLocal, setNameLocal] = useState('')
@@ -7,21 +6,11 @@ export const InputForm = ({setName, setAdress, setPhone, setEmail, setCurrier}) 
     let [phoneLocal, setPhoneLocal] = useState('')
     let [adressLocal, setAdressLocal] = useState('')
     let [currierLocal, setCurrierLocal] = useState(false)
-    const onNameChanged = e => {
-        setNameLocal(e.target.value)
-    }
-    const onEmailChanged = e => {
-        setEmailLocal(e.target.value)
-    }
-    const onPhoneChanged = e => {
-        setPhoneLocal(e.target.value)
-    }
-    const onAdressChanged = e => {
-        setAdressLocal(e.target.value)
-    }
-    const onCurrierChecked = e => {
-        setCurrierLocal(e.target.checked)
-    }
+    const onNameChanged = e => {setNameLocal(e.target.value)}
+    const onEmailChanged = e => {setEmailLocal(e.target.value)}
+    const onPhoneChanged = e => {setPhoneLocal(e.target.value)}
+    const onAdressChanged = e => {setAdressLocal(e.target.value)}
+    const onCurrierChecked = e => {setCurrierLocal(e.target.checked)}
     useEffect(() => {
         setName(nameLocal)
         setEmail(emailLocal)

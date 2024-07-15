@@ -14,10 +14,8 @@ const ShopsListExtended = () => {
         
     return(
         <div className='shopsMenuExtended'>
-          <h2 className='shopsTitle'>Shops:</h2>
-            <ul className='shopsList'>
-                {contentShops}
-            </ul>
+            <h2 className='shopsTitle'>Shops:</h2>
+            <ul className='shopsList'> {contentShops} </ul>
         </div>
     );
 }

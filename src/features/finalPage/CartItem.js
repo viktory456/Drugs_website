@@ -4,15 +4,12 @@ import { useState } from 'react'
 import { useGetShopsQuery, selectShopById } from '../api/shopsSlice'
 import { useSelector, useDispatch } from "react-redux"
 
-
-
 const CartItem = ({cartItemId}) => {
 
   const dispatch = useDispatch()
   const cart = useSelector(selectAllCart)
     const cartItem = useSelector(state => selectCartById(state, Number(cartItemId.id)))
     const deleteItemClicked = async () => {
-      console.log(cartItem.id);
       try {
           await dispatch(deleteFromCart({id:cartItem.id})).unwrap()
       } catch (err) {
@@ -24,7 +21,6 @@ const CartItem = ({cartItemId}) => {
       if(e.target.innerText === '>') {
         await dispatch(increaseQty({cartItem})).unwrap()
       } else if(e.target.innerText === '<') {
-        // console.log(cartItem);
         await dispatch(decreaseQty({cartItem})).unwrap()
       }
     } catch (err) {
@@ -32,15 +28,7 @@ const CartItem = ({cartItemId}) => {
     }
   }
   const shop = useSelector((state) => selectShopById(state, Number(cartItem?.shop)))
-    // const { data:shops, isLoading, isSuccess, isError, error } = useGetShopsQuery('getShops')
-    // let shop;
-    // if (isLoading) {
-    //     shop = <p>...</p>;
-    //   } else if (isSuccess) {
-    //     shop = shops.entities[cartItem.shop].name;
-    //   }
-    
-    const itemTotal = (cartItem?.price * cartItem?.quantity).toFixed(2)
+  const itemTotal = (cartItem?.price * cartItem?.quantity).toFixed(2)
 
   return (
     <article className='cartItem'>

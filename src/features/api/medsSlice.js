@@ -36,8 +36,8 @@ const medsSlice = createSlice({
                 priceSortedAdapter.addOne(state, action.payload)
             })
             .addCase(addFavorite.fulfilled, (state, action) => {
-                const { id } = action.payload;
-                const { newFav } = action.payload;
+                // const { id } = action.payload;
+                // const { newFav } = action.payload;
                 medsAdapter.upsertOne(state, action.payload)
             })
     }
