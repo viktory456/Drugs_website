@@ -1,6 +1,7 @@
 import { selectAllDtS, selectDtSById} from '../api/medsShopsSlice'
 import Med from './Meds'
 import { useSelector } from "react-redux"
+import Grid from '@mui/material/Grid'
 
 
 const MedsShops = ({shopId}) => {
@@ -11,9 +12,7 @@ const MedsShops = ({shopId}) => {
 
   return (
 
-    <div className='medsToShops'>
-        {meds}
-    </div>
+    <Grid container justifyContent='space-evenly'>{meds}</Grid>
   )
 }
 

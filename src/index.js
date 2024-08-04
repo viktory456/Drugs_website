@@ -14,6 +14,7 @@ import { fetchOrders } from './features/api/ordersSlice';
 // import { ApiProvider } from '@reduxjs/toolkit/query/react';
 // import { apiSlice } from './features/api/api';
 
+
 store.dispatch(fetchCart())
 store.dispatch(fetchCoupons())
 store.dispatch(fetchMeds())

@@ -1,33 +1,34 @@
 import { useGetShopsQuery, selectShopById} from '../api/shopsSlice'
-import { NavLink } from "react-router-dom"
-import styled from "styled-components";
+import styled from "styled-components"
 import { useSelector } from 'react-redux'
+import {Box, Typography, Link, Grid} from '@mui/material'
+import { Link as RouterLink } from 'react-router-dom'
+import { useTheme } from '@mui/material/styles'
 
-const NavUnlisted = styled.li`
-  list-style: none;
-  width: 300px;
-  height: 200px;
-  border: 1px solid darkslategrey;
-  border-radius: 10px;
 
-  div, a{
-    text-decoration: none;
-    color: darkslategrey;
-    font-size: 12px;
-    
+const GridStyled = styled(Grid) (function () {
+  const theme = useTheme();
+  return {
+    color:theme.palette.text.secondary,
+    border:`1px solid ${theme.palette.text.primary}`,
+    borderRadius:'5px',
+  '& .MuiTypography-root': {
+    padding:'10px'
   }
-    `;
+  }
+})
+
 
 const ShopExtended = ({shopId}) => {
 const shop = useSelector((state) => selectShopById(state, Number(shopId)))
-
+const theme = useTheme();
   return (
-    <NavUnlisted>
-            <div className='shopTitle'> {shop.title} </div>
-            <div className='shopAdress'> {shop.adress} </div>
-            <div className='shopPhone'>{'+38 555-55-55'}</div>
-            <div className='medicinesList'><NavLink to={`${shopId}`}>{'See list of medicines  >>>'}</NavLink> </div>
-    </NavUnlisted>
+    <GridStyled item xs={12} sm={5} md={3} lg={2} sx={{margin:'10px'}}>
+      <Typography sx={{fontWeight:'900', fontSize:'16px'}}>{shop.title}</Typography>
+      <Typography> {shop.adress} </Typography>
+      <Typography>{'+38 555-55-55'}</Typography>
+      <Typography><Link sx={{color:`${theme.palette.text.secondary}`}} component={RouterLink} to={`${shopId}`}>{'See shop  >>'}</Link> </Typography>
+    </GridStyled>
   )
 }
 

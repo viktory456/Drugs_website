@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react'
-import { useSelector } from "react-redux";
-import { useGetShopsQuery, selectAllShops} from '../api/shopsSlice'
-import { useGetMedsQuery, selectAllMeds} from '../api/medsSlice'
-import ShopExtended from './ShopExtended';
+import { useSelector } from "react-redux"
+import { selectAllShops} from '../api/shopsSlice'
+import { selectAllMeds} from '../api/medsSlice'
+import ShopExtended from './ShopExtended'
+import {Box, Grid} from '@mui/material'
 
 
 const ShopsListExtended = () => {
@@ -13,10 +14,9 @@ const ShopsListExtended = () => {
     const meds = useSelector(selectAllMeds)
         
     return(
-        <div className='shopsMenuExtended'>
-            <h2 className='shopsTitle'>Shops:</h2>
-            <ul className='shopsList'> {contentShops} </ul>
-        </div>
+        <Box >
+            <Grid container spacing={{xs:1,md:2}} justifyContent='flex-start'> {contentShops} </Grid>
+        </Box>
     );
 }
 

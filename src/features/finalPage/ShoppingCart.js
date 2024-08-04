@@ -2,11 +2,32 @@ import React, {useEffect, useState} from 'react'
 import {selectAllCart, addCustomer} from "../api/cartSlice"
 import {addOrder} from "../api/ordersSlice"
 import { selectAllCoupons } from '../api/couponsSlice'
-import CartItem from './CartItem'
 import { useSelector, useDispatch } from "react-redux"
 import { Captcha } from '../coupons/Captcha'
+import {Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Grid, Typography, Box, Button} from '@mui/material'
+import styled from "styled-components"
+import { useTheme } from '@mui/material/styles'
+
+const CartStyled = styled(Stack) (function () {
+  const theme = useTheme();
+  return {
+    border: `1px solid ${theme.palette.secondary.dark}`,
+    borderRadius: '5px',
+    direction:'column',
+    alignItems:'center',
+    justifyContent:'space-between',
+  }
+})
+const TableCellStyled = styled(TableCell) (function () {
+  const theme = useTheme();
+  return {
+    color: theme.palette.text.primary,
+    textAlign: 'center',
+  }
+})
 
 export const ShoppingCart = ({setCartTotal, setCart, name, email, phone, adress, deliveryType, totalCost, order}) => {
+  const theme = useTheme();
   const dispatch = useDispatch()
   const [buttonStatus, setButtonStatus] = useState(true)
   const coupons = useSelector(selectAllCoupons)
@@ -22,8 +43,6 @@ export const ShoppingCart = ({setCartTotal, setCart, name, email, phone, adress,
     return <div key={coupon.name}>{coupon.name}</div>
   })
   const cart = useSelector(selectAllCart)
-
-  const contentCart = cart?.map(cartItemId=> <CartItem key={cartItemId} cartItemId={cartItemId}/>)
   function total(){
     let temp = cart.map(function(item){
       return item.price*item.quantity
@@ -50,24 +69,42 @@ export const ShoppingCart = ({setCartTotal, setCart, name, email, phone, adress,
   }
 
   return (
-    <div className='shoppingCart'>
-      <div className='cartTitle'>
-          <div>Medicine</div>
-          <div>Price</div>
-          <div>Quantity</div>
-          <div>Shop</div>
-          <div>Total</div>
-          <div></div>
-      </div>
-      <div>{contentCart}</div>
-      <div className='cartBottom'>
-        <div className='couponsCopied'>{couponsSelected.length > 0 ? couponsSelectedDiv : 'Selected Coupons: none'}</div>
-        <Captcha setButtonStatus={setButtonStatus}/>
-        <div className='cartTotal'><div>{'Total:'}</div><div>{totalCartWithCoupons.toFixed(2)}</div></div>
-        <button className="submitButton" onClick={onSubmitClicked} disabled={buttonStatus}>Confirm order</button>
-      </div>
 
-    </div>
+    <CartStyled sx={{ padding:{xs:'10px', sm:'30px'}}}>
+
+    <TableContainer component={Paper} elevation={0}>
+      <Table sx={{ minWidth: 650 }} size="small" aria-label="cart table" >
+        <TableHead>
+          <TableRow>
+            <TableCellStyled>Medicine</TableCellStyled>
+            <TableCellStyled>Price</TableCellStyled>
+            <TableCellStyled>Quantity</TableCellStyled>
+            <TableCellStyled>Seller</TableCellStyled>
+            <TableCellStyled>Total</TableCellStyled>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {cart.map((item) => (
+            <TableRow key={item.price} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+              <TableCellStyled component="th" scope="row">{item.name}</TableCellStyled>
+              <TableCellStyled>{item.price}</TableCellStyled>
+              <TableCellStyled>{item.quantity}</TableCellStyled>
+              <TableCellStyled>{item.shop}</TableCellStyled>
+              <TableCellStyled>{(item.price*item.quantity).toFixed(2)}</TableCellStyled>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+
+      <Grid container justifyContent="space-between" alignItems="flex-end" columns={12} rows={3}>
+        <Grid item xs={6} height='100px' width='100px' sx={{marginTop:'15px', color:`${theme.palette.text.secondary}`}}><Typography fontSize={{xs:'12px', sm:'16px'}} >{couponsSelected.length > 0 ? couponsSelectedDiv : 'Selected Coupons: none'}</Typography></Grid>
+        <Grid item xs={6} height='100px' width='100px'><Typography fontSize={{xs:'12px', sm:'16px'}}  color={`${theme.palette.text.secondary}`} align='right'>{'Total: '}{totalCartWithCoupons.toFixed(2)}</Typography></Grid>
+        <Grid item xs={12} height='150px' align='right' width='100px'><Captcha setButtonStatus={setButtonStatus}/></Grid>
+        <Grid item xs={12}><Button variant='contained' sx={{ borderRadius:'5px'}} type="button" onClick={onSubmitClicked} disabled={buttonStatus}>Confirm order</Button></Grid>
+      </Grid>
+
+    </CartStyled>
 
   )
 }

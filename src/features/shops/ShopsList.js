@@ -1,38 +1,22 @@
 import React, {useEffect, useState} from 'react'
-import { useSelector } from "react-redux";
+import { useSelector } from "react-redux"
 import { useGetShopsQuery, selectAllShops} from '../api/shopsSlice'
-import Shop from './Shop';
+import Shop from './Shop'
+import {Box, Typography, Stack} from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 
 
 const ShopsList = ({setShop}) => {
-
-  // window.onscroll = function() {myFunction()};
-  // var menu = document.getElementsByClassName("shopsTitle")[0];
-  // console.log(menu);
-  // var sticky = menu?.offsetTop;
-  // function myFunction() {
-    
-  //   if (window.screenY >= sticky) {
-  //     menu?.classList.add("sticky")
-  //     console.log('sticky');
-  //   } else {
-  //     menu?.classList.remove("sticky");
-  //     console.log('nonsticky');
-  //   }
-  // }
-
-    const shops = useSelector(selectAllShops)
-    let contentShops;
-    contentShops = shops.map(shopId => <Shop setShop={setShop} key={shopId.id} shopId={shopId}/>)
-         
-    return(
-      // <div className='sticky'>
-        <div className='shopsMenu'>
-          <h2 className='shopsTitle'>Shops:</h2>
-          {contentShops}
-        </div>
-      // </div>
-    );
+  const theme = useTheme();
+  const shops = useSelector(selectAllShops)
+  let contentShops = shops.map(shopId => <Shop setShop={setShop} key={shopId.id} shopId={shopId}/>)
+       
+  return(
+    <Box sx={{padding: `15px`, minWidth: `200px`, position: `fixed`}}>
+      <Typography variant='h5' sx={{color:`${theme.palette.text.secondary}`, textAlign:"center", margin:{xs:'8px', md:'15px'}, fontSize:{xs:'14px', md:'16px'}}}>CHOOSE SHOP:</Typography>
+      <Stack direction={{xs:'row', md:'column'}} spacing={{ xs:1, md:4 }} useFlexGap flexWrap='wrap'>{contentShops}</Stack>
+    </Box>
+  );
 }
 
 export default ShopsList

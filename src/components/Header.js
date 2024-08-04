@@ -1,79 +1,33 @@
-import { NavLink } from "react-router-dom"
-import styled from "styled-components";
+import {AppBar, Box, CssBaseline, IconButton, Toolbar, Stack, Divider, Link} from '@mui/material'
+import MedicationLiquidIcon from '@mui/icons-material/MedicationLiquid'
+import { Link as RouterLink } from 'react-router-dom'
+import { useTheme } from '@mui/material/styles'
+import styled from "styled-components"
 
-const NavUnlisted = styled.ul`
-  
-  display: flex;
-  padding: 0;
-  justify-content: left;
-  align-items: center;
-  column-gap: 35px;
-
-  a {
-    text-decoration: none;
-  }
-
-  li {
-    color: darkslategrey;
-    font-size: 1.3rem;
-    position: relative;
-    list-style: none;
-  }
-
-  .current {
-    li {
-      border-bottom: 2px solid black;
-    }
-  }
-`;
 
 const Header = () => {
+  const theme = useTheme();
     return (
-        <header className="header">
-            <NavUnlisted>
-                    <NavLink to="/" 
-                      style={({ isActive}) => {
-                        return {
-                          fontWeight: isActive ? "bold" : "normal",
-                        };
-                      }}
-                      ><li>Home</li></NavLink>
-                    <div className="vl"></div>
-                    <NavLink to="/shops" 
-                      style={({ isActive}) => {
-                        return {
-                          fontWeight: isActive ? "bold" : "normal",
-                        };
-                      }}
-                      ><li>Shops</li></NavLink>
-                    <div className="vl"></div>
-                    <NavLink to="cart"
-                      style={({ isActive}) => {
-                        return {
-                          fontWeight: isActive ? "bold" : "normal",
-                        };
-                      }}
-                    ><li>Shopping Cart</li></NavLink>
-                    <div className="vl"></div>
-                    <NavLink to="history"
-                      style={({ isActive}) => {
-                        return {
-                          fontWeight: isActive ? "bold" : "normal",
-                        };
-                      }}
-                    ><li>History</li></NavLink>
-                    <div className="vl"></div>
-                    <NavLink to="coupons"
-                      style={({ isActive}) => {
-                        return {
-                          fontWeight: isActive ? "bold" : "normal",
-                        };
-                      }}
-                    ><li>Coupons</li></NavLink>
-
-            </NavUnlisted>
+        <Box>
+          <CssBaseline/>
+          <AppBar color='primary' component="nav">
+        <Toolbar>
+          <Link variant='h5' component={RouterLink} color={theme.palette.common.white} underline="none" to={"/"}>
+            <IconButton color="inherit" size="large" sx={{ mr: 3 }}>
+              <MedicationLiquidIcon />
+            </IconButton>
+          </Link>
+          <Stack direction="row" divider={<Divider orientation="vertical" flexItem sx={{bgcolor:`${theme.palette.common.white}`}}/>} spacing={2}>
+            <Link component={RouterLink} sx={{color:`${theme.palette.text.primary}`, '&:hover': {fontWeight: {xs:'regular', md:'regular', lg:'bold'}}, fontSize:{xs:'12px', md:'16px'}, marginLeft:{xs:'8px', md:'16px'}}} underline="none" to={"/"}>HOME</Link>
+            <Link component={RouterLink} sx={{color:`${theme.palette.text.primary}`, '&:hover': {fontWeight: {xs:'regular', md:'regular', lg:'bold'}}, fontSize:{xs:'12px', md:'16px'}, marginLeft:{xs:'8px', md:'16px'}}} underline="none" to={"/shops"}>SHOPS</Link>
+            <Link component={RouterLink} sx={{color:`${theme.palette.text.primary}`, '&:hover': {fontWeight: {xs:'regular', md:'regular', lg:'bold'}}, fontSize:{xs:'12px', md:'16px'}, marginLeft:{xs:'8px', md:'16px'}}} underline="none" to={"/cart"}>SHOPPING CART</Link>
+            <Link component={RouterLink} sx={{color:`${theme.palette.text.primary}`, '&:hover': {fontWeight: {xs:'regular', md:'regular', lg:'bold'}}, fontSize:{xs:'12px', md:'16px'}, marginLeft:{xs:'8px', md:'16px'}}} underline="none" to={"/history"}>HISTORY</Link>
+            <Link component={RouterLink} sx={{color:`${theme.palette.text.primary}`, '&:hover': {fontWeight: {xs:'regular', md:'regular', lg:'bold'}}, fontSize:{xs:'12px', md:'16px'}, marginLeft:{xs:'8px', md:'16px'}}} underline="none" to={"/coupons"}>COUPONS</Link>
+          </Stack>
+        </Toolbar>
+      </AppBar>
             
-        </header>
+        </Box>
     )
 }
 
