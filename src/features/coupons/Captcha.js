@@ -3,7 +3,44 @@ import { TextField, Typography, Button, Grid } from '@mui/material'
 import styled from "styled-components"
 import { useTheme } from '@mui/material/styles'
 
-
+const StyledGrid = styled(Grid)(function () {
+  const theme = useTheme();
+  return{
+    [theme.breakpoints.up("mobile")]: {
+      gap: 1,
+    },
+    [theme.breakpoints.up("tablet")]: {
+      gap: 3,
+    }
+  }
+});
+const CaptchaGrid = styled(Grid)(function () {
+  const theme = useTheme();
+  return{
+    [theme.breakpoints.up("mobile")]: {
+      width:'30%'
+    }
+  }
+});
+const CaptchaResult = styled(Grid)(function () {
+  const theme = useTheme();
+  return{
+    [theme.breakpoints.up("mobile")]: {
+      width:'100%'
+    }
+  }
+});
+const StyledButton = styled(Button)(function () {
+  const theme = useTheme();
+  return{
+    [theme.breakpoints.up("mobile")]: {
+      maxWidth:'35px'
+    },
+    [theme.breakpoints.up("tablet")]: {
+      maxWidth:'80px'
+    },
+  }
+});
 const CaptchaRoot = styled('div', {
   name: 'MuiStat', 
   slot: 'root', 
@@ -63,13 +100,14 @@ export const Captcha = ({setButtonStatus}) => {
       }
   }
   return (
-    <Grid container direction='row' justifyContent='center' alignItems='center' spacing={{xs:'3px', sm:3}}>
-        <Grid item xs={4}><CaptchaImg value={captcha}/></Grid>
-        <Grid item xs={4}>
-          <TextField id="standard-helperText" label="Type captcha code" helperText="to unblock submitting" variant="standard" onChange={captchaChange}/>
-        </Grid>
-        <Grid item xs={4}><Button variant="contained" onClick={Printmsg} sx={{maxWidth:{xs:'35px', sm:'80px'}}}>Submit</Button></Grid>
-        <Grid xs={12} item><Typography sx={{color: (keyText === 'Matched') ? `${theme.palette.success.light}` : `${theme.palette.error.light}`, paddingRight:'60px'}}>{keyText}</Typography></Grid>
-    </Grid>
+    <StyledGrid container direction='row' justifyContent='center' alignItems='center'>
+        <CaptchaGrid item><CaptchaImg value={captcha}/></CaptchaGrid>
+        <CaptchaGrid item>
+          <TextField id="standard-helperText" label="Type captcha code" helperText="to unblock submitting" variant="standard" onChange={captchaChange} />
+        </CaptchaGrid>
+        <CaptchaGrid item><StyledButton variant="contained" onClick={Printmsg}>Submit</StyledButton></CaptchaGrid>
+        <CaptchaResult item><Typography sx={{color: (keyText === 'Matched') ? `${theme.palette.success.light}` : `${theme.palette.error.light}`, paddingRight:'60px'}}>{keyText}</Typography></CaptchaResult>
+    </StyledGrid>
   )
 }
+

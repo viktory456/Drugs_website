@@ -8,13 +8,8 @@ const ShopChosen = createContext('hello');
 
 export const MainPage = () => {
 
-
   const [shop, setShop] = useState('default');
   const [byPrice, setByPrice] = useState(false);
-  // const sortPrice = () => { setByPrice(true) } 
-
-
-
 
   return (
     <ShopChosen.Provider value={shop}>

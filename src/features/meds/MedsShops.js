@@ -12,7 +12,7 @@ const MedsShops = ({shopId}) => {
 
   return (
 
-    <Grid container justifyContent='space-evenly'>{meds}</Grid>
+    <Grid container justifyContent='flex-start'>{meds}</Grid>
   )
 }
 

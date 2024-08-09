@@ -13,13 +13,59 @@ const GridItemStyled = styled(Grid) (function () {
       '&:hover': {
       boxShadow: theme.shadows[2],
       cursor: 'pointer'
-    }
+    },
+    [theme.breakpoints.up("mobile")]: {
+      borderRadius:'2px',
+      width: '100%'
+    },
+    [theme.breakpoints.up("tablet")]: {
+      borderRadius:'5px',
+      width: '40%'
+    },
+    [theme.breakpoints.up("laptop")]: {
+       width: '30%'
+    },
+    [theme.breakpoints.up("desktop")]: {
+       width: '18%'
+    },
+  }
+})
+const NameStyled = styled(Box) (function () {
+  const theme = useTheme();
+  return {
+    [theme.breakpoints.up("mobile")]: {
+      fontSize:'16px',
+      fontWeight:'700',
+      color:theme.palette.text.main,
+      marginBottom:theme.spacing(2)
+    },
+    [theme.breakpoints.up("tablet")]: {
+      fontSize:'20px'
+    },
+    [theme.breakpoints.up("desktop")]: {
+      fontSize:'24px',
+      marginBottom:theme.spacing(3)
+    },
+  }
+})
+const CodeStyled = styled(Box) (function () {
+  const theme = useTheme();
+  return {
+    [theme.breakpoints.up("mobile")]: {
+      fontSize:'12px',
+      color:theme.palette.text.primary,
+      marginBottom:theme.spacing(2)
+    },
+    [theme.breakpoints.up("tablet")]: {
+      fontSize:'14px',
+      marginBottom:theme.spacing(3)
+    },
   }
 })
 
 
 export const Coupon = (couponId) => {
-    const theme = useTheme();
+
     const dispatch = useDispatch()
     const couponSelected = useSelector((state) => selectCouponById(state, Number(couponId.couponId)))
     const [buttonText, setButtonText] = useState(couponSelected.copied)
@@ -42,11 +88,11 @@ export const Coupon = (couponId) => {
       },[window.innerWidth]);
 
   return (
-    <GridItemStyled item xs={12} sm={5} md={4} lg={3} sx={{borderRadius:{xs:'2px',md:'5px'}, padding:{xs:'5px',md:'10px'}, margin:{xs:'5px',md:'10px'}}}>
-        <Stack direction='column' spacing={{xs:1,md:2}} justifyContent='center' alignItems='center'>
-        <Box sx={{fontSize:{xs:'16px',sm:'20px', md:'24px'}, color:`${theme.palette.text.main}`, fontWeight:'700'}}>{couponSelected.name}</Box>
-        <Box sx={{fontSize:{xs:'12px',sm:'14px', md:'16px'}, color:`${theme.palette.text.primary}`}}>{couponCode.toUpperCase()}</Box>
-        <Button variant='contained' onClick={copyCouponFunc}>{buttonText ? 'Remove' : 'Copy'}</Button>
+    <GridItemStyled item margin='5px' padding='10px'>
+        <Stack direction='column' justifyContent='center' alignItems='center'>
+          <NameStyled>{couponSelected.name}</NameStyled>
+          <CodeStyled>{couponCode.toUpperCase()}</CodeStyled>
+          <Button variant='contained' onClick={copyCouponFunc}>{buttonText ? 'Remove' : 'Copy'}</Button>
         </Stack>
     </GridItemStyled>
   )

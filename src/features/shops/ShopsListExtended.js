@@ -15,7 +15,7 @@ const ShopsListExtended = () => {
         
     return(
         <Box >
-            <Grid container spacing={{xs:1,md:2}} justifyContent='flex-start'> {contentShops} </Grid>
+            <Grid container justifyContent='flex-start'> {contentShops} </Grid>
         </Box>
     );
 }

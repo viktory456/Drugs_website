@@ -1,9 +1,24 @@
 import React, { useContext, useEffect,useState } from 'react'
 import {Stack, FormControlLabel, Checkbox, TextField} from '@mui/material'
+import styled from "styled-components"
 import { useTheme } from '@mui/material/styles'
 
-export const InputForm = ({setName, setAdress, setPhone, setEmail, setCurrier}) => {
+const StackStyled = styled(Stack) (function () {
   const theme = useTheme();
+  return {
+    border:`1px solid ${theme.palette.secondary.dark}`,
+    color:theme.palette.text.secondary,
+    padding:'25px',
+    spacing: [2],
+    borderRadius: '4px',
+    direction:'column',
+    width: '100%'
+  }
+})
+
+
+export const InputForm = ({setName, setAdress, setPhone, setEmail, setCurrier}) => {
+  // const theme = useTheme();
   let [nameLocal, setNameLocal] = useState('')
   let [emailLocal, setEmailLocal] = useState('')
   let [phoneLocal, setPhoneLocal] = useState('')
@@ -22,14 +37,14 @@ export const InputForm = ({setName, setAdress, setPhone, setEmail, setCurrier}) 
       setCurrier(currierLocal)
   }, [nameLocal, emailLocal, phoneLocal, adressLocal, currierLocal])
   return (
-    <Stack direction='column' spacing={2} borderRadius={1} padding='25px' sx={{width:{md:'70%', lg:'100%'}, border:`1px solid ${theme.palette.secondary.dark}`, color:`${theme.palette.text.secondary}`}}>
+    <StackStyled>
 
-    <TextField id="name" label="Name" variant="standard" value={nameLocal} onChange={onNameChanged}/>
-    <TextField id="email" label="Email" variant="standard" value={emailLocal} onChange={onEmailChanged}/>
-    <TextField id="phone" label="Phone" variant="standard" value={phoneLocal} onChange={onPhoneChanged}/>
-    <TextField id="adress" label="Adress" variant="standard" value={adressLocal} onChange={onAdressChanged}/>
-    <FormControlLabel control={<Checkbox color="success"/>} label="Currier delivery" checked={currierLocal} onChange={onCurrierChecked}/>
+      <TextField id="name" label="Name" variant="standard" value={nameLocal} onChange={onNameChanged}/>
+      <TextField id="email" label="Email" variant="standard" value={emailLocal} onChange={onEmailChanged}/>
+      <TextField id="phone" label="Phone" variant="standard" value={phoneLocal} onChange={onPhoneChanged}/>
+      <TextField id="adress" label="Adress" variant="standard" value={adressLocal} onChange={onAdressChanged}/>
+      <FormControlLabel control={<Checkbox color="success"/>} label="Currier delivery" checked={currierLocal} onChange={onCurrierChecked}/>
 
-</Stack>
+    </StackStyled>
   )
 }

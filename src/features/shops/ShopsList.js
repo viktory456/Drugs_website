@@ -4,18 +4,63 @@ import { useGetShopsQuery, selectAllShops} from '../api/shopsSlice'
 import Shop from './Shop'
 import {Box, Typography, Stack} from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+import styled, { ThemeConsumer } from "styled-components"
+
+
+const ShopsMenu = styled(Box) (function () {
+  const theme = useTheme();
+  return {
+    padding: `15px`,
+    minWidth: `200px`,
+    position: `fixed`,
+    [theme.breakpoints.up("mobile")]: {
+      display:'none',
+    
+    },
+    [theme.breakpoints.up("laptop")]: {
+     display:'block',
+    }
+  }
+})
+const ShopsTitle = styled(Typography) (function () {
+  const theme = useTheme();
+  return {
+    color:`${theme.palette.text.secondary}`,
+    textAlign:"center",
+   [theme.breakpoints.up("mobile")]: {
+      paddingBottom:'16px',
+      fontSize:'12px'
+    },
+    [theme.breakpoints.up("laptop")]: {
+      margin:'15px',
+      fontSize:'16px'
+    }
+  }
+})
+const ShopsStack = styled(Stack) (function () {
+  const theme = useTheme();
+  return {
+   [theme.breakpoints.up("mobile")]: {
+      gap:'10px',
+    
+    },
+    [theme.breakpoints.up("laptop")]: {
+     gap:'15px',
+    }
+  }
+})
 
 
 const ShopsList = ({setShop}) => {
-  const theme = useTheme();
+
   const shops = useSelector(selectAllShops)
   let contentShops = shops.map(shopId => <Shop setShop={setShop} key={shopId.id} shopId={shopId}/>)
        
   return(
-    <Box sx={{padding: `15px`, minWidth: `200px`, position: `fixed`}}>
-      <Typography variant='h5' sx={{color:`${theme.palette.text.secondary}`, textAlign:"center", margin:{xs:'8px', md:'15px'}, fontSize:{xs:'14px', md:'16px'}}}>CHOOSE SHOP:</Typography>
-      <Stack direction={{xs:'row', md:'column'}} spacing={{ xs:1, md:4 }} useFlexGap flexWrap='wrap'>{contentShops}</Stack>
-    </Box>
+    <ShopsMenu>
+      <ShopsTitle variant='h5'>CHOOSE SHOP:</ShopsTitle>
+      <ShopsStack direction='column' useFlexGap flexWrap='wrap'>{contentShops}</ShopsStack>
+    </ShopsMenu>
   );
 }
 

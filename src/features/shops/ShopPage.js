@@ -14,8 +14,8 @@ export const ShopPage = () => {
   return (
     
     <Stack direction='column' spacing={2} sx={{color:`${theme.palette.text.primary}`}}>
-        <Box sx={{fontWeight:'bold', color:`${theme.palette.text.secondary}`}}>{shop.title}</Box>
-        <Box sx={{color:`${theme.palette.text.secondary}`}}>{shop.adress}</Box>
+        <Box sx={{fontWeight:'bold', color:`${theme.palette.text.secondary}`}}>{shop?.title}</Box>
+        <Box sx={{color:`${theme.palette.text.secondary}`}}>{shop?.adress}</Box>
         <MedsShops shopId={shopId}/>
     </Stack>
 

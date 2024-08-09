@@ -10,8 +10,70 @@ import styled from "styled-components"
 import {Stack, Grid, Typography, Box, Button} from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 
-const QtyButtons = styled(Button) (function () {
+const MedBlock = styled(Grid) (function () {
+    const theme = useTheme();
     return {
+        position:'relative',
+        boxShadow:`1px 1px 2px ${theme.palette.secondary.main}`,
+        borderRadius: `5px`,
+        backgroundColor:`${theme.palette.background.paperLight}`,
+      [theme.breakpoints.up("mobile")]: {
+        padding:'8px',
+        width:'100%',
+        margin:'8px'
+      },
+      [theme.breakpoints.up("tablet")]: {
+        padding:'14px',
+        width:'60%',
+        margin:'14px'
+      },
+      [theme.breakpoints.up("laptop")]: {
+        padding:'14px',
+        width:'55%',
+        margin:'14px'
+      },
+      [theme.breakpoints.up("desktop")]: {
+        padding:'16px',
+        width:'40%',
+        margin:'20px'
+      }
+    }
+})
+const ImageBox = styled(Box) (function () {
+  const theme = useTheme();
+  return {
+    [theme.breakpoints.up("mobile")]: {
+      height:'90px',
+      width:'auto',
+    },
+    [theme.breakpoints.up("laptop")]: {
+      height:'120px',
+      width:'auto',
+    },
+    [theme.breakpoints.up("desktop")]: {
+      height:'150px',
+      width:'auto',
+    }
+  }
+})
+const FavBlock = styled(Grid) (function () {
+  const theme = useTheme();
+  return {
+    position:'absolute', 
+    [theme.breakpoints.up("mobile")]: {
+        right:'5px',
+        top:'5px'
+    },
+    [theme.breakpoints.up("laptop")]: {
+        right:'16px',
+        top:'16px'
+    }
+  }
+})
+const QtyButtons = styled(Button) (function () {
+    const theme = useTheme();
+    return {
+        color:`${theme.palette.secondary.main}`,
         fontSize:'16px',
         minWidth:`20px`, 
         '&:hover': {
@@ -19,17 +81,79 @@ const QtyButtons = styled(Button) (function () {
             backgroundColor: 'transparent',
         }
     }
-  })
-
-const Med = ({medId}) => {
+})
+const MedTitle = styled(Box) (function () {
+  return {
+    width:`120px`,
+    fontWeight:`bold`,
+    display:'flex',
+    justifyContent:'center'
+  }
+})
+const MedPrice = styled(Box) (function () {
     const theme = useTheme();
+    return {
+        alignItems:"center", 
+      [theme.breakpoints.up("mobile")]: {
+        display:'none', 
+      },
+      [theme.breakpoints.up("tablet")]: {
+        display:'block'
+      }
+    }
+})
+const ShopTitle = styled(Box) (function () {
+    const theme = useTheme();
+    return {
+        fontWeight: `bold`,
+        width:"150px",
+      [theme.breakpoints.up("mobile")]: {
+        display:'none', 
+      },
+      [theme.breakpoints.up("desktop")]: {
+        display:'flex'
+      }
+    }
+})
+const BuyButton = styled(Button) (function () {
+    const theme = useTheme();
+    return {
+      [theme.breakpoints.up("mobile")]: {
+        minWidth:'20px',
+        height:'20px',
+        borderRadius:'3px',
+        fontSize:'10px',
+        padding:'3px', 
+      },
+      [theme.breakpoints.up("laptop")]: {
+        minWidth:'60px',
+        height:'40px',
+        borderRadius:'5px',
+        fontSize:'16px',
+        padding:'6px 8px', 
+      }
+    }
+})
+const QtyStack = styled(Stack) (function () {
+  const theme = useTheme();
+  return {
+    [theme.breakpoints.up("phone")]: {
+      display:'none'
+    },
+    [theme.breakpoints.up("desktop")]: {
+      display:'block'
+    },
+  }
+})
+const Med = ({medId}) => {
+    // const theme = useTheme();
     const dispatch = useDispatch()
-    const meds = useSelector(selectAllMeds)
+    // const meds = useSelector(selectAllMeds)
     const med = useSelector((state) => selectMedById(state, Number(medId.id)))
     const cart = useSelector(selectAllCart)
     let startingQty = 1;
     for(let i =0; i < cart.length; i++){
-        if(cart[i].shop == med.shop_id && cart[i].name == med.name){
+        if(cart[i].shop == med?.shop_id && cart[i].name == med.name){
             startingQty = Number(cart[i].quantity)
         }
     }
@@ -41,13 +165,11 @@ const Med = ({medId}) => {
         setQuantity(quantity - 1)
     }
     const qtyIncrease = () => setQuantity(quantity + 1)
-
-    const shops = useSelector(selectAllShops)
+    // const shops = useSelector(selectAllShops)
     const shop = useSelector((state) => selectShopById(state, Number(med?.shop_id)))
     const [favorite, setFavorite] = useState(med?.favorite)
     const base64 = Buffer.from(med?.img.data, "binary" ).toString("base64");
     const idInCart = `${med?.id}${new Date().getTime()}`
-
     const onAddItemClicked = async () => {
         try {
              await dispatch(addToCart({ id: idInCart, name: med?.name, shop: med?.shop_id, quantity: quantity, price: med?.price })).unwrap()
@@ -58,25 +180,23 @@ const Med = ({medId}) => {
     const toggleFav = () => {dispatch(addFavorite(Number(medId.id))).unwrap()}
 
   return (
-    <Grid item xs={7} md={7} lg={7} xl={4.4} sx={{position:'relative', padding:{xs:'8px', md:'16px'}, boxShadow:`1px 1px 2px ${theme.palette.secondary.main}`, borderRadius: `5px`, margin: `5px`, backgroundColor:`${theme.palette.background.paperLight}`}}>
-        <Stack direction="column" spacing={1}>
-            <Box sx={{position:'absolute', right:{xs:'5px', md:'16px'}, top:{xs:'5px', md:'16px'}}} onClick={toggleFav}>
-                {favorite ? <StarSolid /> : <StarEmpty />}
-            </Box>
-        <Grid container spacing={0} justifyContent="center" alignItems='center'> <Box component="img" sx={{height: 150, width: 130}} src={`data:image/png;base64,${base64}`}/></Grid>
-        <Stack direction='row' alignItems='center' justifyContent='space-evenly'>
-            <Box sx={{width:`120px`, fontWeight:`bold`, display:'flex', justifyContent:'center'}}>{med.name}</Box>
-            <Box sx={{alignItems:"center", display:{xs:'none', sm:'block'}}}>{`${med.price}`}</Box>
-            <Box display={{xs:'none', sm:'none', md:'none', lg:'flex'}} alignItems='center' justifyContent='center' width={150} sx={{fontWeight: `bold`}}>{shop?.title}</Box>
-            <Stack direction='row' justifyContent='center' alignItems='center' sx={{display:{xs:'none', sm:'flex'}}}>
-                <QtyButtons sx={{color:`${theme.palette.secondary.main}`}} onClick={qtyDecrease}>{'-'}</QtyButtons>
-                <Typography sx={{fontStyle:`bold`}}>{quantity}</Typography>
-                <QtyButtons sx={{color:`${theme.palette.secondary.main}`}} onClick={qtyIncrease}>{'+'}</QtyButtons>
+    <MedBlock item margin='15px'>
+        <Stack direction="column">
+            <FavBlock onClick={toggleFav}>{favorite ? <StarSolid /> : <StarEmpty />}</FavBlock>
+            <Grid container spacing={0} justifyContent="center" alignItems='center'> <ImageBox component="img" src={`data:image/png;base64,${base64}`}/></Grid>
+            <Stack direction='row' alignItems='center' justifyContent='space-evenly'>
+                <MedTitle>{med.name}</MedTitle>
+                <MedPrice>{med.price}</MedPrice>
+                <ShopTitle alignItems='center' justifyContent='center' textAlign='center'>{shop?.title}</ShopTitle>
+                <QtyStack direction='row' justifyContent='center' alignItems='center'>
+                    <QtyButtons onClick={qtyDecrease}>{'-'}</QtyButtons>
+                    <Typography sx={{fontStyle:`bold`}}>{quantity}</Typography>
+                    <QtyButtons onClick={qtyIncrease}>{'+'}</QtyButtons>
+                </QtyStack>
+                <BuyButton variant='contained' type="button" onClick={onAddItemClicked}>{'Buy'}</BuyButton>
             </Stack>
-            <Button variant='contained' sx={{minWidth:{xs:'20px', md:'60px'}, height:{xs:'20px', md:'40px'}, borderRadius:{xs:'3px', md:'5px'}, padding:{xs:'3px', md:'6px 8px'}, fontSize:{xs:'10px', md:'16px'}}} type="button" onClick={onAddItemClicked}>{'Buy'}</Button>
         </Stack>
-        </Stack>
-    </Grid>
+    </MedBlock>
   )
 }
 

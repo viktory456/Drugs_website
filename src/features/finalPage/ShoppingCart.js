@@ -16,6 +16,25 @@ const CartStyled = styled(Stack) (function () {
     direction:'column',
     alignItems:'center',
     justifyContent:'space-between',
+    [theme.breakpoints.up("mobile")]: {
+      padding: '10px',
+      width: '100%',
+
+   },
+   [theme.breakpoints.up("tablet")]: {
+      padding: '30px'
+   },
+   [theme.breakpoints.up("desktop")]: {
+      width: '55%',
+      position: 'absolute',
+      right: '16px',
+      top:'80px'
+ },
+  }
+})
+const TableStyled = styled(Table) (function () {
+  return {
+    minWidth: `650px`,
   }
 })
 const TableCellStyled = styled(TableCell) (function () {
@@ -23,6 +42,23 @@ const TableCellStyled = styled(TableCell) (function () {
   return {
     color: theme.palette.text.primary,
     textAlign: 'center',
+  }
+})
+const GridItem = styled(Grid) (function () {
+  const theme = useTheme();
+  return {
+    height:'100px',
+    // width:'100px',
+    marginTop:'15px',
+    color:`${theme.palette.text.secondary}`,
+    [theme.breakpoints.up("mobile")]: {
+      padding: '10px',
+      fontSize:'12px'
+   },
+   [theme.breakpoints.up("tablet")]: {
+      padding: '30px',
+      fontSize:'16px'
+   },
   }
 })
 
@@ -70,10 +106,10 @@ export const ShoppingCart = ({setCartTotal, setCart, name, email, phone, adress,
 
   return (
 
-    <CartStyled sx={{ padding:{xs:'10px', sm:'30px'}}}>
+    <CartStyled>
 
     <TableContainer component={Paper} elevation={0}>
-      <Table sx={{ minWidth: 650 }} size="small" aria-label="cart table" >
+      <TableStyled size="small" aria-label="cart table" >
         <TableHead>
           <TableRow>
             <TableCellStyled>Medicine</TableCellStyled>
@@ -94,14 +130,14 @@ export const ShoppingCart = ({setCartTotal, setCart, name, email, phone, adress,
             </TableRow>
           ))}
         </TableBody>
-      </Table>
+      </TableStyled>
     </TableContainer>
 
       <Grid container justifyContent="space-between" alignItems="flex-end" columns={12} rows={3}>
-        <Grid item xs={6} height='100px' width='100px' sx={{marginTop:'15px', color:`${theme.palette.text.secondary}`}}><Typography fontSize={{xs:'12px', sm:'16px'}} >{couponsSelected.length > 0 ? couponsSelectedDiv : 'Selected Coupons: none'}</Typography></Grid>
-        <Grid item xs={6} height='100px' width='100px'><Typography fontSize={{xs:'12px', sm:'16px'}}  color={`${theme.palette.text.secondary}`} align='right'>{'Total: '}{totalCartWithCoupons.toFixed(2)}</Typography></Grid>
-        <Grid item xs={12} height='150px' align='right' width='100px'><Captcha setButtonStatus={setButtonStatus}/></Grid>
-        <Grid item xs={12}><Button variant='contained' sx={{ borderRadius:'5px'}} type="button" onClick={onSubmitClicked} disabled={buttonStatus}>Confirm order</Button></Grid>
+        <GridItem item width='50%'><Typography >{couponsSelected.length > 0 ? couponsSelectedDiv : 'Selected Coupons: none'}</Typography></GridItem>
+        <GridItem item width='50%' marginTop='0px' padding='0px'><Typography align='right'>{'Total: '}{totalCartWithCoupons.toFixed(2)}</Typography></GridItem>
+        <Grid item width='100%' height='150px' align='right'><Captcha setButtonStatus={setButtonStatus}/></Grid>
+        <Grid item width='100%'><Button variant='contained' borderRadius='5px' type="button" onClick={onSubmitClicked} disabled={buttonStatus}>Confirm order</Button></Grid>
       </Grid>
 
     </CartStyled>

@@ -103,6 +103,15 @@ const lightTheme = createTheme({
 });
 
 const darkTheme = createTheme({
+  breakpoints: {
+    values: {
+      mobile: 0,
+      tablet: 600,
+      laptop: 900,
+      desktop: 1200
+    }
+  },
+  spacing: [0, 4, 8, 16, 32, 64],
   palette: {
     mode: 'dark',
     common:{
@@ -193,6 +202,22 @@ const darkTheme = createTheme({
     },
   },
 });
+
+// const StyledGrid = styled(Grid)(function () {
+//   const theme = useTheme();
+//   return{
+//     [theme.breakpoints.up("mobile")]: {
+//       spacing: [1],
+//     },
+//     [theme.breakpoints.up("tablet")]: {
+//       spacing: [3],
+//     },
+//     [theme.breakpoints.up("laptop")]: {
+//     },
+//     [theme.breakpoints.up("desktop")]: {
+//     },
+//   }
+// });
 
 function App() {
 

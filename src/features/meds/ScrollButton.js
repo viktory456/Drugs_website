@@ -1,7 +1,20 @@
 import React, {useState} from 'react'
 import {FaArrowCircleUp} from 'react-icons/fa'
 import {Button } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
+import styled from "styled-components"
+
+
+
+const Scroll = styled(Button) (function () {
+	return {
+		border: `none`,
+		outline:'none',
+		marginTop:'10px',
+		'&:hover':{
+			outline:'none', border:'none'
+		}
+	}
+  })
 
 const ScrollButton = (visible) =>{ 
 
@@ -13,9 +26,9 @@ const scrollToTop = () =>{
 }; 
 
 return ( 
-	<Button variant='outlined' sx={{border:'none', '&:hover':{outline:'none', border:'none'}}}> 
+	<Scroll variant='outlined'> 
 	    <FaArrowCircleUp onClick={scrollToTop}  style={{display: visible.visible ? 'inline' : 'none'}} /> 
-	</Button> 
+	</Scroll> 
 ); 
 } 
 

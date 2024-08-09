@@ -6,6 +6,80 @@ import { useSelector } from "react-redux"
 import {Stack, Grid, Button, Box } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import ScrollButton from './ScrollButton'
+import styled from "styled-components"
+
+const GridContainer = styled(Grid) (function () {
+  const theme = useTheme();
+  return {
+    borderRadius:`5px`,
+    [theme.breakpoints.up("mobile")]: {
+      // overflow:'scroll',
+      height:'100vh', 
+      paddingLeft:'0px',
+      justifyContent:'space-between',  
+    },
+    [theme.breakpoints.up("laptop")]: {
+      overflow:'hidden',
+      height:'100%', 
+      paddingLeft:'250px',
+      justifyContent:'start'
+    }
+  }
+})
+const SortingButtons = styled(Button) (function () {
+  const theme = useTheme();
+  return {
+    [theme.breakpoints.up("mobile")]: {
+      margin:'3px',
+      padding:'3px', 
+      fontSize:'8px',
+    },
+    [theme.breakpoints.up("tablet")]: {
+      fontSize:'12px'
+    },
+    [theme.breakpoints.up("laptop")]: {
+      margin:'10px',
+      padding:'15px', 
+      fontSize:'16px'
+    }
+  }
+})
+const SortingButtonsAndScroll = styled(Stack) (function () {
+  const theme = useTheme();
+  return {
+
+    [theme.breakpoints.up("mobile")]: {
+         visibility:'hidden',
+
+    },
+    [theme.breakpoints.up("tablet")]: {
+      margin:'3px',
+      padding:'3px', 
+      fontSize:'12px',
+      right:'30px',
+      top:'80px',
+      visibility:'inherit',
+      position:`fixed`,
+    },
+    [theme.breakpoints.up("laptop")]: {
+      margin:'10px',
+      padding:'15px', 
+      fontSize:'16px',
+    }
+  }
+})
+const MedsContainer = styled(Stack) (function () {
+  const theme = useTheme();
+  return {
+
+    [theme.breakpoints.up("mobile")]: {
+
+    },
+    [theme.breakpoints.up("tablet")]: {
+
+    }
+  }
+})
 
 export const MedsList = ({shop}) => {
   const theme = useTheme();
@@ -32,7 +106,7 @@ export const MedsList = ({shop}) => {
     return medsChosenList
   }, [meds, medsShops, selectedShop])
   const medsChosenFav = medsChosen?.filter(med => med.favorite === true)
-  const medsChosenNonFav = medsChosen?.filter(med => med.favorite === false)
+  const medsChosenNonFav = medsChosen?.filter(med => med.favorite === false) 
   const medsChosenFavSorted = medsChosenFav.sort(comparePrices)
   const medsChosenNonFavSorted = medsChosenNonFav.sort(comparePrices)
 
@@ -74,28 +148,25 @@ export const MedsList = ({shop}) => {
   }, []);
 
 
-
-
-
 const sortByPrice = () => { setSortedList(true) }
 const resetSorting = () => { setSortedList(false) }
 const selectAllShops = () => { setSelectedShop('default') }
 useEffect(()=>{ setSelectedShop(shop) }, [shop])
-const heightCalc = `${Number(window.innerHeight)}`-200
+// const heightCalc = `${Number(window.innerHeight)}`-200
 
   return (
-    <Stack direction='row' sx={{paddingTop:{xs:'250px', md:'0px'}}} id='gridContainer'>
-      <Grid container spacing={1} justifyContent={{xs:'space-between', md:'start'}} sx={{borderRadius:`5px`, paddingLeft:{xs:'0px', md:'200px'}, height:{xs:'100vh', sm:'100%'}, overflow:{xs:'scroll', sm:'hidden'}}}>{medsList}</Grid>
+    <MedsContainer direction='row' id='gridContainer'>
+      <GridContainer container spacing={1}>{medsList}</GridContainer>
 
-      <Stack direction='column' alignItems={{xs:'center'}} justifyContent={{xs:'center'}} spacing={1} sx={{position:`fixed`, right:{xs:'40px', sm:'50px', lg:'150px'}}}>
-        <Stack>
-          <Button variant='outlined' sx={{fontSize:{xs:'8px', sm:'12px', md:'16px'}, padding:{xs:'3px', md:'15px'}, margin:{xs:'3px', md:'10px'}}} onClick={sortByPrice}>Sort by Price</Button>
-          <Button variant='outlined' sx={{fontSize:{xs:'8px', sm:'12px', md:'16px'}, padding:{xs:'3px', md:'15px'}, margin:{xs:'3px', md:'10px'}}} onClick={resetSorting}>Reset Sorting</Button>
-          <Button variant='outlined' sx={{fontSize:{xs:'8px', sm:'12px', md:'16px'}, padding:{xs:'3px', md:'15px'}, margin:{xs:'3px', md:'10px'}}} onClick={selectAllShops}>All Shops</Button>
+      <SortingButtonsAndScroll direction='column' alignItems='center' justifyContent='center' spacing={1}>
+        <Stack spacing={2}>
+          <SortingButtons variant='outlined' onClick={sortByPrice}>Sort by Price</SortingButtons>
+          <SortingButtons variant='outlined' onClick={resetSorting}>Reset Sorting</SortingButtons>
+          <SortingButtons variant='outlined' onClick={selectAllShops}>All Shops</SortingButtons>
         </Stack>
         <ScrollButton variant='outlined' visible={visible}/>
-      </Stack>
+      </SortingButtonsAndScroll>
 
-    </Stack>
+    </MedsContainer>
     )
 }
